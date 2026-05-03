@@ -117,10 +117,8 @@
 
 .chartContainer {
   flex: 1;
+  min-width: 0;
   padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: var(--surface-container-lowest);
 }
 

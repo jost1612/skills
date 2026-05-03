@@ -3,13 +3,110 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { GoogleGenAI } from "@google/genai";
+import { revalidatePath } from "next/cache";
 
 export type ChatMessage = {
   role: "user" | "model";
   content: string;
 };
 
-export async function generateAIResponse(deptId: string, history: ChatMessage[], newMessage: string) {
+export type ChatSummary = {
+  id: string;
+  title: string;
+  updatedAt: Date;
+};
+
+function deriveTitle(text: string) {
+  const trimmed = text.trim().replace(/\s+/g, " ");
+  if (!trimmed) return "Neuer Chat";
+  return trimmed.length > 60 ? trimmed.slice(0, 57) + "…" : trimmed;
+}
+
+export async function listAIChats(deptId: string): Promise<ChatSummary[]> {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const chats = await prisma.aIChat.findMany({
+    where: { userId: session.user.id, departmentId: deptId },
+    orderBy: { updatedAt: "desc" },
+    select: { id: true, title: true, updatedAt: true },
+  });
+  return chats;
+}
+
+export async function getAIChat(chatId: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const chat = await prisma.aIChat.findFirst({
+    where: { id: chatId, userId: session.user.id },
+    include: {
+      messages: { orderBy: { createdAt: "asc" } },
+    },
+  });
+  if (!chat) return null;
+
+  return {
+    id: chat.id,
+    title: chat.title,
+    departmentId: chat.departmentId,
+    messages: chat.messages.map((m) => ({
+      role: m.role as "user" | "model",
+      content: m.content,
+    })) as ChatMessage[],
+  };
+}
+
+export async function createAIChat(deptId: string, title?: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const chat = await prisma.aIChat.create({
+    data: {
+      userId: session.user.id,
+      departmentId: deptId,
+      title: title?.trim() || "Neuer Chat",
+    },
+    select: { id: true, title: true, updatedAt: true },
+  });
+  revalidatePath("/dashboard/ai");
+  return chat;
+}
+
+export async function renameAIChat(chatId: string, title: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const trimmed = title.trim();
+  if (!trimmed) return { success: false, message: "Titel darf nicht leer sein." };
+
+  const result = await prisma.aIChat.updateMany({
+    where: { id: chatId, userId: session.user.id },
+    data: { title: trimmed.slice(0, 120) },
+  });
+  if (result.count === 0) return { success: false, message: "Chat nicht gefunden." };
+  revalidatePath("/dashboard/ai");
+  return { success: true };
+}
+
+export async function deleteAIChat(chatId: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  const result = await prisma.aIChat.deleteMany({
+    where: { id: chatId, userId: session.user.id },
+  });
+  if (result.count === 0) return { success: false, message: "Chat nicht gefunden." };
+  revalidatePath("/dashboard/ai");
+  return { success: true };
+}
+
+export async function generateAIResponse(
+  deptId: string,
+  history: ChatMessage[],
+  newMessage: string,
+  chatId?: string | null,
+) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
@@ -106,9 +203,46 @@ export async function generateAIResponse(deptId: string, history: ChatMessage[],
       }
     });
 
-    return { 
-      success: true, 
-      text: response.text 
+    const text = response.text ?? "";
+
+    let resolvedChatId = chatId ?? null;
+    if (resolvedChatId) {
+      const owned = await prisma.aIChat.findFirst({
+        where: { id: resolvedChatId, userId: session.user.id },
+        select: { id: true },
+      });
+      if (!owned) resolvedChatId = null;
+    }
+
+    if (!resolvedChatId) {
+      const created = await prisma.aIChat.create({
+        data: {
+          userId: session.user.id,
+          departmentId: deptId,
+          title: deriveTitle(newMessage),
+        },
+        select: { id: true },
+      });
+      resolvedChatId = created.id;
+    }
+
+    await prisma.aIChatMessage.createMany({
+      data: [
+        { chatId: resolvedChatId, role: "user", content: newMessage },
+        { chatId: resolvedChatId, role: "model", content: text },
+      ],
+    });
+    await prisma.aIChat.update({
+      where: { id: resolvedChatId },
+      data: { updatedAt: new Date() },
+    });
+
+    revalidatePath("/dashboard/ai");
+
+    return {
+      success: true,
+      text,
+      chatId: resolvedChatId,
     };
 
   } catch (error: any) {
