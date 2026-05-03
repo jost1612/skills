@@ -1,0 +1,2657 @@
+[
+  {
+    "id": "dept_bicc",
+    "name": "BICC",
+    "members": [
+      {
+        "id": "cp1212",
+        "name": "Christoph Pächter",
+        "short": "CP",
+        "color": "#1f77b4"
+      },
+      {
+        "id": "mk1212",
+        "name": "Mario Kauer",
+        "short": "MK",
+        "color": "#ff7f0e"
+      },
+      {
+        "id": "ms1212",
+        "name": "Marcel Schneiter",
+        "short": "MS",
+        "color": "#2ca02c"
+      },
+      {
+        "id": "rw1212",
+        "name": "Reto Wysseier",
+        "short": "RW",
+        "color": "#d62728"
+      },
+      {
+        "id": "re1212",
+        "name": "Roland Erb",
+        "short": "RE",
+        "color": "#9467bd"
+      },
+      {
+        "id": "sm1212",
+        "name": "Samira Moser",
+        "short": "SM",
+        "color": "#8c564b"
+      },
+      {
+        "id": "m_1774939289585",
+        "name": "Stefan Jost",
+        "short": "SJ",
+        "color": "#e377c2",
+        "title": "Rolle"
+      }
+    ],
+    "skills": {
+      "Business Analyse & Kundenbegleitung": [
+        {
+          "id": "ba1",
+          "name": "Controlling (CO / Reporting) BERE",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 2,
+            "rw1212": 2
+          }
+        },
+        {
+          "id": "ba2",
+          "name": "Controlling (Forecast/ Planung) Kosten",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 2,
+            "rw1212": 2
+          }
+        },
+        {
+          "id": "ba3",
+          "name": "Finanzen (FI)",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "rw1212": 2
+          }
+        },
+        {
+          "id": "ba4",
+          "name": "Finanzen K&G (FI, XENTIS)",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 2,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "ba5",
+          "name": "Risk Management / Bilanzsteuerung (FI)",
+          "scores": {
+            "cp1212": 1,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "ba6",
+          "name": "Personal (HCM)",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "rw1212": 2
+          }
+        },
+        {
+          "id": "ba7",
+          "name": "Vertragskontokorrent (FSCD)",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "rw1212": 2
+          }
+        },
+        {
+          "id": "ba8",
+          "name": "Asset Mgmt. (CML, XENTIS, PBAssetMan)",
+          "scores": {
+            "mk1212": 2,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "ba9",
+          "name": "MBCS",
+          "scores": {
+            "cp1212": 1,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "ba10",
+          "name": "Business Analyse",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 2,
+            "re1212": 2,
+            "sm1212": 2
+          }
+        },
+        {
+          "id": "ba11",
+          "name": "Fach - Prozessdesign SolMan P-05.XXX",
+          "scores": {}
+        },
+        {
+          "id": "ba12",
+          "name": "Fachdokumentation DocuPerformer",
+          "scores": {
+            "mk1212": 2,
+            "ms1212": 1
+          }
+        },
+        {
+          "id": "ba13",
+          "name": "Berechtigungen BW - für Kunden",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 1,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "ba14",
+          "name": "Berechtigungen BO - für Kunden",
+          "scores": {
+            "mk1212": 2,
+            "ms1212": 2
+          }
+        },
+        {
+          "id": "ba15",
+          "name": "Finanzplanung",
+          "scores": {}
+        },
+        {
+          "id": "ba16",
+          "name": "FinOps",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "rw1212": 2,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        }
+      ],
+      "Betrieb & Stabilität": [
+        {
+          "id": "op1",
+          "name": "Applikationsmgmt BW4 + Add ons",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "op2",
+          "name": "Wartungen und Upgrades",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "ms1212": 1,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "op3",
+          "name": "Incident Management, OSS",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "op4",
+          "name": "Monitoring",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 1
+          }
+        },
+        {
+          "id": "op5",
+          "name": "IT Dokumentation DocuPerformer",
+          "scores": {
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "op6",
+          "name": "Monatliche Beladung",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 2
+          }
+        },
+        {
+          "id": "op7",
+          "name": "Beladung FüCo – TEVE",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "op8",
+          "name": "Beladung FüCo – TEVO",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 1,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "op9",
+          "name": "Beladung FüCo – Produktion",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "op10",
+          "name": "Beladung FüCo – Schaden",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 1,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "op11",
+          "name": "Beladung FüCo – Kosten",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "op12",
+          "name": "Beladung FüCo – Kapitalanlagen",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "op13",
+          "name": "Beladung FüCo – SoKe",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "op14",
+          "name": "Beladung FüCo – Konzern",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        }
+      ],
+      "Development & Tools": [
+        {
+          "id": "dev1",
+          "name": "Lumira 2.0",
+          "scores": {
+            "ms1212": 2,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "dev2",
+          "name": "WebI / BO",
+          "scores": {
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 1
+          }
+        },
+        {
+          "id": "dev3",
+          "name": "Analysis for Office (AfO)",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 2,
+            "re1212": 2,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "dev4",
+          "name": "BPC",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2
+          }
+        },
+        {
+          "id": "dev5",
+          "name": "Graphomate",
+          "scores": {
+            "ms1212": 2,
+            "re1212": 2
+          }
+        },
+        {
+          "id": "dev6",
+          "name": "SAP Analytics Cloud (SAC)",
+          "scores": {
+            "cp1212": 1,
+            "ms1212": 1,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "dev7",
+          "name": "SAP BW/4 Modeling",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 2,
+            "re1212": 2
+          }
+        },
+        {
+          "id": "dev8",
+          "name": "SAP BO Launchpad",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2
+          }
+        },
+        {
+          "id": "dev9",
+          "name": "ABAP",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 1,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "dev10",
+          "name": "Change-/Transport-Mgmt",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 1
+          }
+        },
+        {
+          "id": "dev11",
+          "name": "Berechtigungen BW (Tech)",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "dev12",
+          "name": "HANA SQL",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1
+          }
+        },
+        {
+          "id": "dev13",
+          "name": "HANA Calculation View",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2
+          }
+        },
+        {
+          "id": "dev14",
+          "name": "S/4HANA Integration",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "dev15",
+          "name": "CDS Views",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1
+          }
+        },
+        {
+          "id": "dev16",
+          "name": "PowerBI",
+          "scores": {
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 2
+          }
+        },
+        {
+          "id": "dev17",
+          "name": "Teraform",
+          "scores": {
+            "cp1212": 1,
+            "re1212": 1,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "dev18",
+          "name": "Python",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "ms1212": 1,
+            "rw1212": 1,
+            "re1212": 1,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "dev19",
+          "name": "SQL",
+          "scores": {
+            "cp1212": 1,
+            "mk1212": 1,
+            "ms1212": 1,
+            "rw1212": 1,
+            "re1212": 1,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "dev20",
+          "name": "Hadron Stack (Databricks)",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 1,
+            "re1212": 2,
+            "sm1212": 2
+          }
+        },
+        {
+          "id": "dev21",
+          "name": "GIT",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 1,
+            "ms1212": 1,
+            "rw1212": 1,
+            "re1212": 2,
+            "sm1212": 2
+          }
+        },
+        {
+          "id": "dev22",
+          "name": "Cloud Kenntnisse",
+          "scores": {
+            "cp1212": 1,
+            "re1212": 1,
+            "sm1212": 1
+          }
+        },
+        {
+          "id": "dev23",
+          "name": "Anaplan",
+          "scores": {}
+        },
+        {
+          "id": "dev24",
+          "name": "KI Kenntnisse",
+          "scores": {
+            "cp1212": 1,
+            "rw1212": 1,
+            "re1212": 1,
+            "sm1212": 2
+          }
+        },
+        {
+          "id": "dev25",
+          "name": "SoleMan",
+          "scores": {}
+        },
+        {
+          "id": "dev26",
+          "name": "qTest",
+          "scores": {}
+        },
+        {
+          "id": "dev27",
+          "name": "Datavard",
+          "scores": {}
+        },
+        {
+          "id": "s_1772438164171",
+          "name": "Datenmodellierung",
+          "scores": {}
+        }
+      ],
+      "Testing & Qualität": [
+        {
+          "id": "qa1",
+          "name": "UX",
+          "scores": {}
+        },
+        {
+          "id": "qa2",
+          "name": "Design",
+          "scores": {
+            "rw1212": 1
+          }
+        },
+        {
+          "id": "qa3",
+          "name": "Testsuiten SolMan (Regression)",
+          "scores": {
+            "cp1212": 1,
+            "ms1212": 1
+          }
+        },
+        {
+          "id": "qa4",
+          "name": "Data Validate (Regression)",
+          "scores": {
+            "cp1212": 2,
+            "mk1212": 2,
+            "ms1212": 2,
+            "rw1212": 1,
+            "re1212": 2
+          }
+        },
+        {
+          "id": "qa5",
+          "name": "TestManagement (Go Live)",
+          "scores": {}
+        },
+        {
+          "id": "s_1772438181376",
+          "name": "Testmethodik in der Softwareentwicklung",
+          "scores": {}
+        },
+        {
+          "id": "s_1772443645384",
+          "name": "qTest",
+          "scores": {}
+        },
+        {
+          "id": "s_1772443655560",
+          "name": "Datavard",
+          "scores": {}
+        }
+      ],
+      "Agile Organisation": [
+        {
+          "id": "ao1",
+          "name": "agiles Mindeset",
+          "scores": {
+            "cp1212": 3,
+            "mk1212": 3,
+            "ms1212": 3,
+            "rw1212": 3,
+            "re1212": 3,
+            "sm1212": 3,
+            "m_1774939289585": 3
+          }
+        }
+      ],
+      "Soft Skills": [
+        {
+          "id": "sk1",
+          "name": "Präsentationstärke",
+          "scores": {
+            "m_1774939289585": 2
+          }
+        },
+        {
+          "id": "s_1772438221970",
+          "name": "Kommunikation",
+          "scores": {
+            "m_1774939289585": 2
+          }
+        },
+        {
+          "id": "s_1772438238354",
+          "name": "Verhandlungsgeschick",
+          "scores": {
+            "m_1774939289585": 2
+          }
+        }
+      ]
+    },
+    "jobProfile": {
+      "title": "Controller (w/m/d)",
+      "subtitle": "Finanzen / Bern / Berufserfahrene / 80 - 100%",
+      "intro": "Als Controller:in mit einer Leidenschaft für Daten erwartet dich bei der Mobiliar eine spannende Rolle in einem zukunftsorientierten Umfeld. Du gestaltest aktiv die digitale Transformation im Controlling, nutzt moderne Technologien und bringst innovative Ideen zur Weiterentwicklung unserer Controlling Produkte und Prozesse ein.",
+      "tasksTitle": "Das bewirkst du bei uns",
+      "tasks": [
+        "In unserem Team übernimmst du die spannende Aufgabe, sowohl externe als auch interne Daten hinsichtlich der Profitabilität zu analysieren. Du bist verantwortlich für die Liquiditätsberichterstattung und trägst wesentlich zur finanziellen Steuerung unseres Unternehmens bei.",
+        "Mit modernen BI Anwendungen und datenorientiert entwickelst Du unser Controlling sowie die Prozesse und das Reporting weiter. Die fortschrittliche Infrastruktur der Mobiliar bietet dir dabei die idealen Grundlagen, um innovative Lösungen zu implementieren und die Weiterentwicklung in einer sich ständig verändernden Welt voranzutreiben. Lass uns gemeinsam die Zukunft gestalten!"
+      ],
+      "requirementsTitle": "Das bringst du mit",
+      "requirements": [
+        "Hochschulabschluss in Betriebswirtschaft, Wirtschaftsinformatik oder eine vergleichbare Ausbildung",
+        "Enthusiasmus, Neugier und «die Lust zu lernen» um Neues zu schaffen",
+        "Erste Erfahrung im Controlling idealerweise in der Finanzbranche",
+        "Sicherer Umgang mit Zahlen und ein gutes Gespür für Daten",
+        "Können gut Zusammenhänge erkennen und kreative Lösungen entwickeln",
+        "Selbstständige, umsetzungsorientierte und kommunikative Persönlichkeit",
+        "Fliessende Deutschkenntnisse in Wort und Schrift, weitere Fremdsprachenkenntnisse sind ein Plus"
+      ],
+      "offerTitle": "Bei uns arbeiten",
+      "offer": "Auf dich wartet ein unterstützendes und interdisziplinäres Team in einer motivierenden und innovativen Arbeitsatmosphäre mit moderner Infrastruktur. Hauptarbeitsort ist unser Direktionsstandort in Bern. Dein Arbeitspensum ist ab 80% verhandelbar, flexible Arbeitszeitmodelle und Homeoffice Optionen stehen dir offen."
+    },
+    "tasks": [
+      {
+        "id": "task_1771999361312",
+        "category": "Allgemein",
+        "name": "Diverses",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1771999342333",
+        "category": "Allgemein",
+        "name": "Soft Skills",
+        "requiredSkills": [
+          "sk1",
+          "s_1772438221970",
+          "s_1772438238354"
+        ]
+      },
+      {
+        "id": "t_b1",
+        "category": "Betrieb",
+        "name": "Prozesskettenmonitoring",
+        "requiredSkills": [
+          "op4",
+          "op6"
+        ]
+      },
+      {
+        "id": "t_b2",
+        "category": "Betrieb",
+        "name": "Incident-Management",
+        "requiredSkills": [
+          "op3"
+        ]
+      },
+      {
+        "id": "t_b3",
+        "category": "Betrieb",
+        "name": "Fehlerbehebung in den von uns entwickelten Lösungen",
+        "requiredSkills": [
+          "op3",
+          "dev10"
+        ]
+      },
+      {
+        "id": "t_b4",
+        "category": "Betrieb",
+        "name": "Erstellen von SAP Incidents",
+        "requiredSkills": [
+          "op3",
+          "op2",
+          "dev10"
+        ]
+      },
+      {
+        "id": "t_b5",
+        "category": "Betrieb",
+        "name": "Einspielen von SAP Korrekturen bei Bedarf",
+        "requiredSkills": [
+          "op2"
+        ]
+      },
+      {
+        "id": "t_b6",
+        "category": "Betrieb",
+        "name": "Beurteilung und Einspielen von Renovates (Databricks)",
+        "requiredSkills": [
+          "dev20",
+          "dev18"
+        ]
+      },
+      {
+        "id": "t_b7",
+        "category": "Betrieb",
+        "name": "1st Level bis hin zu 3rd Level Support",
+        "requiredSkills": [
+          "op2",
+          "op3"
+        ]
+      },
+      {
+        "id": "t_cm1",
+        "category": "Change Management",
+        "name": "Beurteilen von Änderungsanfragen (ChaRM)",
+        "requiredSkills": [
+          "op1",
+          "dev10"
+        ]
+      },
+      {
+        "id": "t_cm2",
+        "category": "Change Management",
+        "name": "Transport von Entwicklungsobjekten",
+        "requiredSkills": [
+          "dev10"
+        ]
+      },
+      {
+        "id": "t_cm3",
+        "category": "Change Management",
+        "name": "Hilfestellung bei Transportkonflikten",
+        "requiredSkills": [
+          "dev10"
+        ]
+      },
+      {
+        "id": "t_al1",
+        "category": "Application Lifecycle",
+        "name": "Koordination von Updates/Upgrades/System Refresh",
+        "requiredSkills": [
+          "op2"
+        ]
+      },
+      {
+        "id": "t_al2",
+        "category": "Application Lifecycle",
+        "name": "Testdurchführung bei Updates und Upgrades",
+        "requiredSkills": [
+          "dev10",
+          "op2"
+        ]
+      },
+      {
+        "id": "t_al3",
+        "category": "Application Lifecycle",
+        "name": "Administration (Speicheroptimierung, Data Tiering)",
+        "requiredSkills": [
+          "op1"
+        ]
+      },
+      {
+        "id": "t_ba1",
+        "category": "Business Analyse",
+        "name": "Anforderungsanalyse mit den Stakeholdern",
+        "requiredSkills": [
+          "ba10"
+        ]
+      },
+      {
+        "id": "t_ba2",
+        "category": "Business Analyse",
+        "name": "Lösungsdesign",
+        "requiredSkills": [
+          "ba_ph_17",
+          "s_1772438164171",
+          "qa2",
+          "qa1",
+          "dev16",
+          "dev8",
+          "dev7",
+          "dev2",
+          "dev4",
+          "dev23"
+        ]
+      },
+      {
+        "id": "t_sm1",
+        "category": "Stakeholder-Management",
+        "name": "enger Austausch mit Business Owner sicherstellen",
+        "requiredSkills": [
+          "ba1",
+          "ba2",
+          "ba3",
+          "ba4",
+          "ba5",
+          "ba6",
+          "ba7",
+          "ba8",
+          "ba9",
+          "ba10",
+          "ba15",
+          "ba16",
+          "dev1",
+          "dev2",
+          "dev3",
+          "dev4",
+          "dev5",
+          "dev6",
+          "dev7",
+          "dev8",
+          "dev11"
+        ]
+      },
+      {
+        "id": "t_sm2",
+        "category": "Stakeholder-Management",
+        "name": "Bedürfnisse ermitteln, erkennen",
+        "requiredSkills": [
+          "ba10"
+        ]
+      },
+      {
+        "id": "t_sm3",
+        "category": "Stakeholder-Management",
+        "name": "Business User beraten",
+        "requiredSkills": [
+          "ba10",
+          "ba9",
+          "ba8",
+          "ba7",
+          "ba6",
+          "ba5",
+          "ba4",
+          "ba3",
+          "ba2",
+          "ba1",
+          "ba16",
+          "ba15"
+        ]
+      },
+      {
+        "id": "t_sm4",
+        "category": "Stakeholder-Management",
+        "name": "Anforderungen analysieren, konsolidieren",
+        "requiredSkills": [
+          "ba10"
+        ]
+      },
+      {
+        "id": "t_sm6",
+        "category": "Stakeholder-Management",
+        "name": "Umsetzungen priorisieren, kommunizieren",
+        "requiredSkills": []
+      },
+      {
+        "id": "t_ek2",
+        "category": "Entwicklung/Konfiguration",
+        "name": "Entwicklung von Datenprodukten (Databricks/Hadron/Git Pipeline[CI/CD])",
+        "requiredSkills": [
+          "dev21",
+          "dev20",
+          "dev18",
+          "dev17"
+        ]
+      },
+      {
+        "id": "t_ek3",
+        "category": "Entwicklung/Konfiguration",
+        "name": "Entwicklung von Dashboards (SAP Lumira & Power BI)",
+        "requiredSkills": [
+          "dev1",
+          "dev16",
+          "dev5"
+        ]
+      },
+      {
+        "id": "t_ek4",
+        "category": "Entwicklung/Konfiguration",
+        "name": "Entwicklung von Reportinglösungen (SAP WebI, SAP AfO, S/4HANA)",
+        "requiredSkills": [
+          "dev2",
+          "dev3",
+          "dev5"
+        ]
+      },
+      {
+        "id": "t_ek5",
+        "category": "Entwicklung/Konfiguration",
+        "name": "Entwicklung von Planungslösungen mit SAP BPC (zukünftig mit Anaplan)",
+        "requiredSkills": [
+          "dev4"
+        ]
+      },
+      {
+        "id": "t_ek6",
+        "category": "Entwicklung/Konfiguration",
+        "name": "Datenintegration- und Modellierung mit SAP BW",
+        "requiredSkills": [
+          "dev7",
+          "dev13",
+          "dev11",
+          "dev12",
+          "dev10",
+          "dev9",
+          "s_1772438164171"
+        ]
+      },
+      {
+        "id": "t_be1",
+        "category": "Berechtigungen",
+        "name": "Berechtigungskonzepte (Rollen, Row-Level Security, Berechtigungsobjekte, DCL)",
+        "requiredSkills": [
+          "dev11",
+          "ba14",
+          "ba13"
+        ]
+      },
+      {
+        "id": "t_pv1",
+        "category": "Planverfolgung",
+        "name": "Beladung FüCo mit IST, FC- und JP Daten",
+        "requiredSkills": [
+          "op6",
+          "op7",
+          "op9",
+          "op11",
+          "op13",
+          "op14",
+          "op12",
+          "op10",
+          "op8"
+        ]
+      },
+      {
+        "id": "t_pv2",
+        "category": "Planverfolgung",
+        "name": "IKS durchführen",
+        "requiredSkills": [
+          "dev25",
+          "ba11"
+        ]
+      },
+      {
+        "id": "t_pe1",
+        "category": "Planungsprozess",
+        "name": "Unterstützung der Fachbereiche bei der Durchführung der FC-und JP Prozesse",
+        "requiredSkills": [
+          "ba15",
+          "dev23",
+          "s_1772438164171",
+          "dev7",
+          "dev10",
+          "dev4"
+        ]
+      },
+      {
+        "id": "t_qs1",
+        "category": "Qualitätssicherung",
+        "name": "Verwalten von Testcases (qTest, Datavard)",
+        "requiredSkills": [
+          "s_1772443645384",
+          "s_1772443655560",
+          "s_1772438181376",
+          "qa5",
+          "qa3",
+          "qa4",
+          "dev26",
+          "dev25",
+          "dev27"
+        ]
+      },
+      {
+        "id": "t_qs2",
+        "category": "Qualitätssicherung",
+        "name": "Durchführen von Regressiontests",
+        "requiredSkills": [
+          "qa3",
+          "s_1772438181376",
+          "qa5",
+          "dev25",
+          "dev27",
+          "dev26"
+        ]
+      },
+      {
+        "id": "t_do1",
+        "category": "Dokumentation",
+        "name": "Dokumentation der von uns entwickelten Lösungen",
+        "requiredSkills": [
+          "ba12",
+          "ba11",
+          "op5"
+        ]
+      },
+      {
+        "id": "t_do2",
+        "category": "Dokumentation",
+        "name": "Pflegen des Kennzahlenkatalogs",
+        "requiredSkills": []
+      },
+      {
+        "id": "t_do3",
+        "category": "Dokumentation",
+        "name": "Pflegen der Berichtsbibliothek",
+        "requiredSkills": [
+          "ba12",
+          "op5",
+          "ba11"
+        ]
+      },
+      {
+        "id": "t_do4",
+        "category": "Dokumentation",
+        "name": "Entwicklungsrichtlinien definieren und festhalten",
+        "requiredSkills": []
+      },
+      {
+        "id": "t_do5",
+        "category": "Dokumentation",
+        "name": "Unterhalt des MBCS Standards",
+        "requiredSkills": [
+          "ba9"
+        ]
+      },
+      {
+        "id": "t_am1",
+        "category": "Agile Methodik",
+        "name": "Scrum Master",
+        "requiredSkills": [
+          "ao1"
+        ]
+      },
+      {
+        "id": "t_am2",
+        "category": "Agile Methodik",
+        "name": "Product Owner",
+        "requiredSkills": [
+          "ao1"
+        ]
+      },
+      {
+        "id": "t_am3",
+        "category": "Agile Methodik",
+        "name": "Techlead",
+        "requiredSkills": [
+          "ba12",
+          "ba11"
+        ]
+      },
+      {
+        "id": "t_am4",
+        "category": "Agile Methodik",
+        "name": "QE",
+        "requiredSkills": [
+          "s_1772438181376",
+          "qa5",
+          "qa3",
+          "qa4",
+          "s_1772443645384"
+        ]
+      },
+      {
+        "id": "t_am5",
+        "category": "Agile Methodik",
+        "name": "Agiles Mindset",
+        "requiredSkills": [
+          "ao1"
+        ]
+      }
+    ],
+    "memberTasks": {
+      "rw1212": [
+        "t_b1",
+        "t_am2",
+        "t_am5",
+        "t_do1",
+        "t_sm1",
+        "t_sm4",
+        "t_sm2",
+        "t_sm6",
+        "t_sm3",
+        "t_ba1",
+        "task_1771999342333"
+      ],
+      "m_1774939289585": [
+        "task_1771999342333",
+        "t_cm2",
+        "t_cm3",
+        "t_al1",
+        "t_ba1",
+        "t_ba2",
+        "t_sm1",
+        "t_sm2",
+        "t_sm3",
+        "t_sm6",
+        "t_sm4",
+        "t_ek2",
+        "t_ek3",
+        "t_ek4",
+        "t_ek5",
+        "t_ek6",
+        "t_pv1",
+        "t_pv2",
+        "t_pe1",
+        "t_do1",
+        "t_do2",
+        "t_do5",
+        "t_am1",
+        "t_am2",
+        "t_am5",
+        "t_am4",
+        "t_am3"
+      ],
+      "cp1212": [
+        "t_b2",
+        "t_b1",
+        "t_b3",
+        "t_b4",
+        "t_b6",
+        "t_b5",
+        "t_b7",
+        "t_cm2",
+        "t_cm3",
+        "t_cm1",
+        "t_ba2",
+        "t_ba1",
+        "t_sm1",
+        "t_ek2",
+        "t_ek5",
+        "t_ek6",
+        "t_be1",
+        "t_pv1",
+        "t_pv2",
+        "t_pe1",
+        "t_am5",
+        "t_do4"
+      ],
+      "mk1212": [
+        "t_am5",
+        "t_am3",
+        "t_do4",
+        "t_do1",
+        "t_pe1",
+        "t_pv1",
+        "t_pv2",
+        "t_be1",
+        "t_ek6",
+        "t_ek2",
+        "t_ek5",
+        "t_sm1",
+        "t_cm1",
+        "t_cm2",
+        "t_cm3",
+        "t_b7",
+        "t_b1",
+        "t_b3",
+        "task_1771999342333"
+      ],
+      "ms1212": [
+        "task_1771999342333",
+        "t_b1",
+        "t_b2",
+        "t_b4",
+        "t_b5",
+        "t_b3",
+        "t_cm2",
+        "t_cm3",
+        "t_al1",
+        "t_al2",
+        "t_al3",
+        "t_sm1",
+        "t_ek3",
+        "t_ek4",
+        "t_be1",
+        "t_pv1",
+        "t_pv2",
+        "t_qs1",
+        "t_qs2",
+        "t_pe1",
+        "t_do1",
+        "t_do2",
+        "t_do3",
+        "t_do5",
+        "t_am1",
+        "t_am5",
+        "t_ek5"
+      ],
+      "re1212": [
+        "task_1771999342333",
+        "t_b7",
+        "t_ba2",
+        "t_ba1",
+        "t_sm1",
+        "t_ek3",
+        "t_ek4",
+        "t_ek6",
+        "t_ek2",
+        "t_ek5",
+        "t_pv1",
+        "t_pv2",
+        "t_do1",
+        "t_do5",
+        "t_am5"
+      ],
+      "sm1212": [
+        "t_am5",
+        "t_do1",
+        "t_pv1",
+        "t_pv2",
+        "t_be1",
+        "t_ek2",
+        "t_ek3",
+        "t_ek5",
+        "t_sm1",
+        "task_1771999342333"
+      ]
+    },
+    "targetTasks": [],
+    "excludedTargetSkills": []
+  },
+  {
+    "id": "dept_2",
+    "name": "Finanzielle Prozesse",
+    "members": [
+      {
+        "id": "m_1774939106571",
+        "name": "Rolf Leuenberger",
+        "short": "RL",
+        "color": "#1f77b4",
+        "title": "Betriebswirtschafter"
+      },
+      {
+        "id": "m_1774939124422",
+        "name": "Ulrich Mosimann",
+        "short": "um",
+        "color": "#ff7f0e",
+        "title": "Betriebswirtschafter"
+      },
+      {
+        "id": "m_1774939131896",
+        "name": "Karsten Wenzel",
+        "short": "KW",
+        "color": "#2ca02c",
+        "title": "Epic Owner"
+      },
+      {
+        "id": "m_1774939139407",
+        "name": "Basil Anderau",
+        "short": "AB",
+        "color": "#d62728",
+        "title": "Business Analyst"
+      },
+      {
+        "id": "m_1774939148981",
+        "name": "Daniel Egger",
+        "short": "DE",
+        "color": "#9467bd",
+        "title": "Betriebswirtschafter"
+      },
+      {
+        "id": "m_1774939156498",
+        "name": "Samuel Bruttin",
+        "short": "SB",
+        "color": "#8c564b",
+        "title": "Product Owner"
+      },
+      {
+        "id": "m_1774939170873",
+        "name": "Marius Matthieu",
+        "short": "MM",
+        "color": "#e377c2",
+        "title": "Betriebswirtschafter"
+      },
+      {
+        "id": "m_1774939181023",
+        "name": "Katja Wyss",
+        "short": "KW",
+        "color": "#7f7f7f",
+        "title": "Product Manager"
+      },
+      {
+        "id": "m_1774939267753",
+        "name": "Reto Dubach",
+        "short": "RD",
+        "color": "#bcbd22",
+        "title": "Leiter FP & Product Owner"
+      }
+    ],
+    "skills": {
+      "Business Analyse & Kundenbegleitung": [
+        {
+          "id": "fp_ba1",
+          "name": "Controlling (CO / Reporting) BERE",
+          "scores": {
+            "m_1774939106571": 1,
+            "m_1774939124422": 3,
+            "m_1774939148981": 3,
+            "m_1774939170873": 3,
+            "m_1774939156498": 1
+          }
+        },
+        {
+          "id": "fp_ba2",
+          "name": "Controlling (Forecast/ Planung) Kosten",
+          "scores": {
+            "m_1774939106571": 1,
+            "m_1774939124422": 3,
+            "m_1774939148981": 2,
+            "m_1774939170873": 2,
+            "m_1774939156498": 1,
+            "m_1774939267753": 1
+          }
+        },
+        {
+          "id": "fp_ba3",
+          "name": "Finanzen (FI)",
+          "scores": {
+            "m_1774939106571": 3,
+            "m_1774939156498": 3,
+            "m_1774939124422": 2,
+            "m_1774939148981": 2,
+            "m_1774939170873": 2,
+            "m_1774939267753": 2
+          }
+        },
+        {
+          "id": "fp_ba7",
+          "name": "Vertragskontokorrent (FSCD)",
+          "scores": {
+            "m_1774939106571": 2,
+            "m_1774939124422": 2,
+            "m_1774939148981": 2,
+            "m_1774939156498": 1,
+            "m_1774939170873": 2,
+            "m_1774939267753": 1
+          }
+        },
+        {
+          "id": "fp_ba10",
+          "name": "Business Analyse",
+          "scores": {
+            "m_1774939156498": 2,
+            "m_1774939267753": 2,
+            "m_1774939170873": 2,
+            "m_1774939148981": 2,
+            "m_1774939124422": 2,
+            "m_1774939106571": 2,
+            "m_1774939131896": 2,
+            "m_1774939139407": 3,
+            "m_1774939181023": 3
+          }
+        }
+      ],
+      "Betrieb & Stabilität": [
+        {
+          "id": "fp_op1",
+          "name": "Applikationsmgmt BW4 + Add ons",
+          "scores": {}
+        },
+        {
+          "id": "fp_op2",
+          "name": "Wartungen und Upgrades",
+          "scores": {}
+        },
+        {
+          "id": "fp_op3",
+          "name": "Incident Management, OSS",
+          "scores": {}
+        },
+        {
+          "id": "fp_op4",
+          "name": "Monitoring",
+          "scores": {}
+        },
+        {
+          "id": "fp_op5",
+          "name": "IT Dokumentation DocuPerformer",
+          "scores": {}
+        },
+        {
+          "id": "fp_op6",
+          "name": "Monatliche Beladung",
+          "scores": {}
+        },
+        {
+          "id": "fp_op7",
+          "name": "Beladung FüCo – TEVE",
+          "scores": {}
+        },
+        {
+          "id": "fp_op8",
+          "name": "Beladung FüCo – TEVO",
+          "scores": {}
+        },
+        {
+          "id": "fp_op9",
+          "name": "Beladung FüCo – Produktion",
+          "scores": {}
+        },
+        {
+          "id": "fp_op10",
+          "name": "Beladung FüCo – Schaden",
+          "scores": {}
+        },
+        {
+          "id": "fp_op11",
+          "name": "Beladung FüCo – Kosten",
+          "scores": {}
+        },
+        {
+          "id": "fp_op12",
+          "name": "Beladung FüCo – Kapitalanlagen",
+          "scores": {}
+        },
+        {
+          "id": "fp_op13",
+          "name": "Beladung FüCo – SoKe",
+          "scores": {}
+        },
+        {
+          "id": "fp_op14",
+          "name": "Beladung FüCo – Konzern",
+          "scores": {}
+        }
+      ],
+      "Development & Tools": [
+        {
+          "id": "fp_dev1",
+          "name": "Lumira 2.0",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev2",
+          "name": "WebI / BO",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev3",
+          "name": "Analysis for Office (AfO)",
+          "scores": {
+            "m_1774939106571": 1,
+            "m_1774939124422": 2,
+            "m_1774939148981": 1,
+            "m_1774939267753": 1,
+            "m_1774939170873": 1
+          }
+        },
+        {
+          "id": "fp_dev4",
+          "name": "BPC",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev5",
+          "name": "Graphomate",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev6",
+          "name": "SAP Analytics Cloud (SAC)",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev7",
+          "name": "SAP BW/4 Modeling",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev8",
+          "name": "SAP BO Launchpad",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev9",
+          "name": "ABAP",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev10",
+          "name": "Change-/Transport-Mgmt",
+          "scores": {
+            "m_1774939139407": 1,
+            "m_1774939156498": 0
+          }
+        },
+        {
+          "id": "fp_dev11",
+          "name": "Berechtigungen BW (Tech)",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev12",
+          "name": "HANA SQL",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev13",
+          "name": "HANA Calculation View",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev14",
+          "name": "S/4HANA Integration",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev15",
+          "name": "CDS Views",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev16",
+          "name": "PowerBI",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev17",
+          "name": "Teraform",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev18",
+          "name": "Python",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev19",
+          "name": "SQL",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev20",
+          "name": "Hadron Stack (Databricks)",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev21",
+          "name": "GIT",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev22",
+          "name": "Cloud Kenntnisse",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev23",
+          "name": "Anaplan",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev24",
+          "name": "KI Kenntnisse",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev25",
+          "name": "SoleMan",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev26",
+          "name": "qTest",
+          "scores": {}
+        },
+        {
+          "id": "fp_dev27",
+          "name": "Datavard",
+          "scores": {}
+        },
+        {
+          "id": "fp_s_1772438164171",
+          "name": "Datenmodellierung",
+          "scores": {}
+        }
+      ],
+      "Testing & Qualität": [
+        {
+          "id": "fp_qa1",
+          "name": "UX",
+          "scores": {}
+        },
+        {
+          "id": "fp_qa2",
+          "name": "Design",
+          "scores": {}
+        },
+        {
+          "id": "fp_qa3",
+          "name": "Testsuiten SolMan (Regression)",
+          "scores": {}
+        },
+        {
+          "id": "fp_qa4",
+          "name": "Data Validate (Regression)",
+          "scores": {}
+        },
+        {
+          "id": "fp_qa5",
+          "name": "TestManagement (Go Live)",
+          "scores": {}
+        },
+        {
+          "id": "fp_s_1772438181376",
+          "name": "Testmethodik in der Softwareentwicklung",
+          "scores": {}
+        },
+        {
+          "id": "fp_s_1772443645384",
+          "name": "qTest",
+          "scores": {}
+        },
+        {
+          "id": "fp_s_1772443655560",
+          "name": "Datavard",
+          "scores": {}
+        }
+      ],
+      "Agile Organisation": [
+        {
+          "id": "fp_ao1",
+          "name": "agiles Mindeset",
+          "scores": {
+            "m_1774939124422": 2,
+            "m_1774939106571": 2
+          }
+        }
+      ],
+      "Soft Skills": [
+        {
+          "id": "fp_sk1",
+          "name": "Präsentationstärke",
+          "scores": {
+            "m_1774939106571": 2,
+            "m_1774939124422": 2,
+            "m_1774939131896": 2,
+            "m_1774939139407": 2,
+            "m_1774939148981": 2,
+            "m_1774939156498": 2,
+            "m_1774939170873": 2,
+            "m_1774939181023": 2,
+            "m_1774939267753": 2
+          }
+        },
+        {
+          "id": "fp_s_1772438221970",
+          "name": "Kommunikation",
+          "scores": {
+            "m_1774939106571": 2,
+            "m_1774939124422": 2,
+            "m_1774939131896": 2,
+            "m_1774939139407": 2,
+            "m_1774939148981": 2,
+            "m_1774939156498": 2,
+            "m_1774939267753": 2,
+            "m_1774939170873": 2,
+            "m_1774939181023": 2
+          }
+        },
+        {
+          "id": "fp_s_1772438238354",
+          "name": "Verhandlungsgeschick",
+          "scores": {
+            "m_1774939106571": 2,
+            "m_1774939124422": 2,
+            "m_1774939131896": 2,
+            "m_1774939139407": 2,
+            "m_1774939148981": 2,
+            "m_1774939156498": 2,
+            "m_1774939170873": 2,
+            "m_1774939181023": 2,
+            "m_1774939267753": 2
+          }
+        }
+      ]
+    },
+    "jobProfile": {
+      "title": "Controller (w/m/d)",
+      "subtitle": "Finanzen / Bern / Berufserfahrene / 80 - 100%",
+      "intro": "Als Controller:in mit einer Leidenschaft für Daten erwartet dich bei der Mobiliar eine spannende Rolle in einem zukunftsorientierten Umfeld. Du gestaltest aktiv die digitale Transformation im Controlling, nutzt moderne Technologien und bringst innovative Ideen zur Weiterentwicklung unserer Controlling Produkte und Prozesse ein.",
+      "tasksTitle": "Das bewirkst du bei uns",
+      "tasks": [
+        "In unserem Team übernimmst du die spannende Aufgabe, sowohl externe als auch interne Daten hinsichtlich der Profitabilität zu analysieren. Du bist verantwortlich für die Liquiditätsberichterstattung und trägst wesentlich zur finanziellen Steuerung unseres Unternehmens bei.",
+        "Mit modernen BI Anwendungen und datenorientiert entwickelst Du unser Controlling sowie die Prozesse und das Reporting weiter. Die fortschrittliche Infrastruktur der Mobiliar bietet dir dabei die idealen Grundlagen, um innovative Lösungen zu implementieren und die Weiterentwicklung in einer sich ständig verändernden Welt voranzutreiben. Lass uns gemeinsam die Zukunft gestalten!"
+      ],
+      "requirementsTitle": "Das bringst du mit",
+      "requirements": [
+        "Hochschulabschluss in Betriebswirtschaft, Wirtschaftsinformatik oder eine vergleichbare Ausbildung",
+        "Enthusiasmus, Neugier und «die Lust zu lernen» um Neues zu schaffen",
+        "Erste Erfahrung im Controlling idealerweise in der Finanzbranche",
+        "Sicherer Umgang mit Zahlen und ein gutes Gespür für Daten",
+        "Können gut Zusammenhänge erkennen und kreative Lösungen entwickeln",
+        "Selbstständige, umsetzungsorientierte und kommunikative Persönlichkeit",
+        "Fliessende Deutschkenntnisse in Wort und Schrift, weitere Fremdsprachenkenntnisse sind ein Plus"
+      ],
+      "offerTitle": "Bei uns arbeiten",
+      "offer": "Auf dich wartet ein unterstützendes und interdisziplinäres Team in einer motivierenden und innovativen Arbeitsatmosphäre mit moderner Infrastruktur. Hauptarbeitsort ist unser Direktionsstandort in Bern. Dein Arbeitspensum ist ab 80% verhandelbar, flexible Arbeitszeitmodelle und Homeoffice Optionen stehen dir offen."
+    },
+    "tasks": [
+      {
+        "id": "task_1776251965941",
+        "category": "Entwicklung/Konfiguration",
+        "name": "Umsetzen von neuen FI Anforderungen (Customizing / Entwicklung /...)Aufgabe",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1776251886127",
+        "category": "Entwicklung/Konfiguration",
+        "name": "Umsetzen von neuen CO Anforderungen (Customizing / Entwicklung /...)",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1776250336463",
+        "category": "Agile Methodik",
+        "name": "Betriebswirtschafter",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1776230929803",
+        "category": "Agile Methodik",
+        "name": "Release Manager",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1776230910751",
+        "category": "Agile Methodik",
+        "name": "Product Manager",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1776230887935",
+        "category": "Agile Methodik",
+        "name": "Epic Owner",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": [
+          "fp_ao1",
+          "fp_s_1772438221970",
+          "fp_sk1",
+          "fp_s_1772438238354"
+        ]
+      },
+      {
+        "id": "fp_task_1771999342333",
+        "category": "Allgemein",
+        "name": "Soft Skills",
+        "requiredSkills": [
+          "fp_sk1",
+          "fp_s_1772438221970",
+          "fp_s_1772438238354"
+        ]
+      },
+      {
+        "id": "fp_t_b2",
+        "category": "Betrieb",
+        "name": "Incident-Management",
+        "requiredSkills": [
+          "fp_op3"
+        ]
+      },
+      {
+        "id": "fp_t_b3",
+        "category": "Betrieb",
+        "name": "Fehlerbehebung in den von uns entwickelten Lösungen",
+        "requiredSkills": [
+          "fp_op3",
+          "fp_dev10"
+        ]
+      },
+      {
+        "id": "fp_t_b4",
+        "category": "Betrieb",
+        "name": "Erstellen von SAP Incidents",
+        "requiredSkills": [
+          "fp_op3",
+          "fp_op2",
+          "fp_dev10"
+        ]
+      },
+      {
+        "id": "fp_t_b5",
+        "category": "Betrieb",
+        "name": "Einspielen von SAP Korrekturen bei Bedarf",
+        "requiredSkills": [
+          "fp_op2"
+        ]
+      },
+      {
+        "id": "fp_t_b7",
+        "category": "Betrieb",
+        "name": "1st Level bis hin zu 3rd Level Support",
+        "requiredSkills": [
+          "fp_op2",
+          "fp_op3"
+        ]
+      },
+      {
+        "id": "fp_t_cm1",
+        "category": "Change Management",
+        "name": "Beurteilen von Änderungsanfragen (ChaRM)",
+        "requiredSkills": [
+          "fp_op1",
+          "fp_dev10"
+        ]
+      },
+      {
+        "id": "fp_t_cm2",
+        "category": "Change Management",
+        "name": "Transport von Entwicklungsobjekten",
+        "requiredSkills": [
+          "fp_dev10"
+        ]
+      },
+      {
+        "id": "fp_t_cm3",
+        "category": "Change Management",
+        "name": "Hilfestellung bei Transportkonflikten",
+        "requiredSkills": [
+          "fp_dev10"
+        ]
+      },
+      {
+        "id": "fp_t_al1",
+        "category": "Application Lifecycle",
+        "name": "Koordination von Updates/Upgrades/System Refresh",
+        "requiredSkills": []
+      },
+      {
+        "id": "fp_t_al2",
+        "category": "Application Lifecycle",
+        "name": "Testdurchführung bei Updates und Upgrades",
+        "requiredSkills": [
+          "fp_dev10",
+          "fp_op2"
+        ]
+      },
+      {
+        "id": "fp_t_ba1",
+        "category": "Business Analyse",
+        "name": "Anforderungsanalyse mit den Stakeholdern",
+        "requiredSkills": [
+          "fp_ba10"
+        ]
+      },
+      {
+        "id": "fp_t_ba2",
+        "category": "Business Analyse",
+        "name": "Lösungsdesign",
+        "requiredSkills": [
+          "ba_ph_17",
+          "fp_s_1772438164171"
+        ]
+      },
+      {
+        "id": "fp_t_sm1",
+        "category": "Stakeholder-Management",
+        "name": "enger Austausch mit Business Owner sicherstellen",
+        "requiredSkills": [
+          "fp_ba1",
+          "fp_ba2",
+          "fp_ba3",
+          "fp_ba7",
+          "fp_ba10",
+          "fp_dev1",
+          "fp_dev2",
+          "fp_dev3",
+          "fp_dev4",
+          "fp_dev5",
+          "fp_dev6",
+          "fp_dev7",
+          "fp_dev8",
+          "fp_dev11",
+          "fp_s_1772438221970"
+        ]
+      },
+      {
+        "id": "fp_t_sm2",
+        "category": "Stakeholder-Management",
+        "name": "Bedürfnisse ermitteln, erkennen",
+        "requiredSkills": [
+          "fp_ba10",
+          "fp_s_1772438221970"
+        ]
+      },
+      {
+        "id": "fp_t_sm3",
+        "category": "Stakeholder-Management",
+        "name": "Business User beraten",
+        "requiredSkills": [
+          "fp_ba10",
+          "fp_ba7",
+          "fp_ba3",
+          "fp_ba2",
+          "fp_ba1",
+          "fp_s_1772438221970"
+        ]
+      },
+      {
+        "id": "fp_t_sm4",
+        "category": "Stakeholder-Management",
+        "name": "Anforderungen analysieren, konsolidieren",
+        "requiredSkills": [
+          "fp_ba10"
+        ]
+      },
+      {
+        "id": "fp_t_sm6",
+        "category": "Stakeholder-Management",
+        "name": "Umsetzungen priorisieren, kommunizieren",
+        "requiredSkills": []
+      },
+      {
+        "id": "fp_t_be1",
+        "category": "Berechtigungen",
+        "name": "Berechtigungskonzepte (Rollen, Row-Level Security, Berechtigungsobjekte, DCL)",
+        "requiredSkills": [
+          "fp_dev11"
+        ]
+      },
+      {
+        "id": "fp_t_pe1",
+        "category": "Planungsprozess",
+        "name": "Unterstützung der Fachbereiche bei der Durchführung der FC-und JP Prozesse",
+        "requiredSkills": []
+      },
+      {
+        "id": "fp_t_qs1",
+        "category": "Qualitätssicherung",
+        "name": "Verwalten von Testcases (qTest, Datavard)",
+        "requiredSkills": [
+          "fp_s_1772443645384",
+          "fp_s_1772443655560"
+        ]
+      },
+      {
+        "id": "fp_t_qs2",
+        "category": "Qualitätssicherung",
+        "name": "Durchführen von Regressiontests",
+        "requiredSkills": [
+          "fp_qa3",
+          "fp_s_1772438181376",
+          "fp_qa5"
+        ]
+      },
+      {
+        "id": "fp_t_do1",
+        "category": "Dokumentation",
+        "name": "Dokumentation der von uns entwickelten Lösungen",
+        "requiredSkills": []
+      },
+      {
+        "id": "fp_t_am2",
+        "category": "Agile Methodik",
+        "name": "Product Owner",
+        "requiredSkills": [
+          "fp_ao1"
+        ]
+      },
+      {
+        "id": "fp_t_am4",
+        "category": "Agile Methodik",
+        "name": "QE",
+        "requiredSkills": [
+          "fp_s_1772438181376",
+          "fp_qa5",
+          "fp_qa3",
+          "fp_dev26"
+        ]
+      },
+      {
+        "id": "fp_t_am5",
+        "category": "Agile Methodik",
+        "name": "Agiles Mindset",
+        "requiredSkills": [
+          "fp_ao1"
+        ]
+      }
+    ],
+    "memberTasks": {
+      "m_1774939156498": [
+        "fp_task_1771999342333",
+        "fp_t_am2",
+        "fp_t_am5",
+        "fp_t_b2",
+        "fp_t_b3",
+        "fp_t_b4",
+        "fp_t_b5",
+        "fp_t_b7",
+        "fp_t_do1",
+        "fp_t_qs2",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_sm3",
+        "fp_t_sm4",
+        "fp_t_sm6",
+        "fp_t_ba2",
+        "fp_t_ba1",
+        "fp_t_al1",
+        "fp_t_al2"
+      ],
+      "m_1774939181023": [
+        "fp_t_sm1",
+        "fp_t_am5",
+        "task_1776230910751",
+        "fp_task_1771999342333",
+        "fp_t_sm2",
+        "fp_t_sm3",
+        "fp_t_sm4",
+        "fp_t_sm6",
+        "fp_t_ba2",
+        "fp_t_ba1"
+      ],
+      "m_1774939148981": [
+        "fp_t_am4",
+        "fp_t_am5",
+        "task_1776250336463",
+        "fp_task_1771999342333",
+        "task_1776251886127",
+        "fp_t_b2",
+        "fp_t_b3",
+        "fp_t_b4",
+        "fp_t_b5",
+        "fp_t_b7",
+        "fp_t_do1",
+        "fp_t_qs2",
+        "fp_t_qs1",
+        "fp_t_pe1",
+        "fp_t_be1",
+        "fp_t_sm6",
+        "fp_t_sm4",
+        "fp_t_sm3",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_ba2",
+        "fp_t_ba1",
+        "fp_t_al1",
+        "fp_t_al2",
+        "fp_t_cm3",
+        "fp_t_cm2",
+        "fp_t_cm1"
+      ],
+      "m_1774939267753": [
+        "fp_t_am2",
+        "fp_t_am5",
+        "fp_task_1771999342333",
+        "fp_t_b2",
+        "fp_t_b3",
+        "fp_t_b4",
+        "fp_t_b5",
+        "fp_t_b7",
+        "fp_t_do1",
+        "fp_t_qs2",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_sm6",
+        "fp_t_sm4",
+        "fp_t_sm3",
+        "fp_t_ba2",
+        "fp_t_ba1",
+        "fp_t_al1",
+        "fp_t_al2",
+        "fp_t_cm2",
+        "fp_t_cm1"
+      ],
+      "m_1774939170873": [
+        "fp_t_am5",
+        "task_1776250336463",
+        "fp_t_al2",
+        "fp_t_al1",
+        "fp_task_1771999342333",
+        "task_1776251886127",
+        "fp_t_b2",
+        "fp_t_b3",
+        "fp_t_b4",
+        "fp_t_b5",
+        "fp_t_b7",
+        "fp_t_do1",
+        "fp_t_qs2",
+        "fp_t_pe1",
+        "fp_t_be1",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_sm6",
+        "fp_t_sm4",
+        "fp_t_sm3",
+        "fp_t_ba2",
+        "fp_t_ba1",
+        "fp_t_cm3",
+        "fp_t_cm2",
+        "fp_t_cm1"
+      ],
+      "m_1774939139407": [
+        "fp_t_am5",
+        "task_1776230929803",
+        "fp_task_1771999342333",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_sm3",
+        "fp_t_sm4",
+        "fp_t_sm6",
+        "fp_t_ba2",
+        "fp_t_ba1",
+        "fp_t_al1",
+        "fp_t_al2"
+      ],
+      "m_1774939131896": [
+        "fp_t_am5",
+        "task_1776230887935",
+        "fp_task_1771999342333",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_sm3",
+        "fp_t_sm4",
+        "fp_t_sm6",
+        "fp_t_ba2",
+        "fp_t_ba1"
+      ],
+      "m_1774939106571": [
+        "task_1776250336463",
+        "fp_task_1771999342333",
+        "task_1776251965941",
+        "fp_t_b2",
+        "fp_t_b3",
+        "fp_t_b4",
+        "fp_t_b5",
+        "fp_t_b7",
+        "fp_t_do1",
+        "fp_t_am5",
+        "fp_t_qs2",
+        "fp_t_be1",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_sm3",
+        "fp_t_sm4",
+        "fp_t_sm6",
+        "fp_t_ba2",
+        "fp_t_ba1",
+        "fp_t_al1",
+        "fp_t_al2",
+        "fp_t_cm3",
+        "fp_t_cm2",
+        "fp_t_cm1"
+      ],
+      "m_1774939124422": [
+        "task_1776250336463",
+        "fp_task_1771999342333",
+        "task_1776251886127",
+        "fp_t_b2",
+        "fp_t_b3",
+        "fp_t_b4",
+        "fp_t_b5",
+        "fp_t_b7",
+        "fp_t_do1",
+        "fp_t_am5",
+        "fp_t_qs2",
+        "fp_t_pe1",
+        "fp_t_be1",
+        "fp_t_sm1",
+        "fp_t_sm2",
+        "fp_t_sm3",
+        "fp_t_sm4",
+        "fp_t_sm6",
+        "fp_t_ba2",
+        "fp_t_ba1",
+        "fp_t_al1",
+        "fp_t_al2",
+        "fp_t_cm3",
+        "fp_t_cm2",
+        "fp_t_cm1"
+      ]
+    },
+    "targetTasks": [],
+    "excludedTargetSkills": []
+  },
+  {
+    "id": "dept_3",
+    "name": "P&R",
+    "members": [
+      {
+        "id": "m_1775836127402",
+        "name": "Claude Schär",
+        "short": "NM",
+        "color": "#1f77b4",
+        "title": "BW 3"
+      },
+      {
+        "id": "m_1775836146167",
+        "name": "Ramcke Karsten",
+        "short": "NM",
+        "color": "#ff7f0e",
+        "title": "BW 3"
+      },
+      {
+        "id": "m_1775836165729",
+        "name": "Affolter Marc",
+        "short": "NM",
+        "color": "#2ca02c",
+        "title": "BW 3"
+      },
+      {
+        "id": "m_1775836181652",
+        "name": "Rölli Sabrina",
+        "short": "NM",
+        "color": "#d62728",
+        "title": "BW 2"
+      },
+      {
+        "id": "m_1775836220909",
+        "name": "Bleuer Nicolas",
+        "short": "NM",
+        "color": "#9467bd",
+        "title": "BW 3"
+      }
+    ],
+    "skills": {
+      "Fachkompetenz": [
+        {
+          "id": "s_1775836324741",
+          "name": "Fachkenntnisse Versicherungen",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 3,
+            "m_1775836146167": 1,
+            "m_1775836165729": 1
+          }
+        },
+        {
+          "id": "s_1775836392508",
+          "name": "Fachkenntnisse Vertrieb",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 3
+          }
+        },
+        {
+          "id": "s_1775836393385",
+          "name": "Fachkenntnisse Vorsorge",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836220909": 2
+          }
+        },
+        {
+          "id": "s_1775836393904",
+          "name": "Fachkenntnisse Anlagen",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836165729": 2,
+            "m_1775836220909": 3
+          }
+        },
+        {
+          "id": "s_1775836394226",
+          "name": "Fachkenntnisse Kosten",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836146167": 3
+          }
+        },
+        {
+          "id": "s_1775836394450",
+          "name": "Fachkenntnisse Risk / EVM",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836181652": 2
+          }
+        },
+        {
+          "id": "s_1775836394676",
+          "name": "Fachkenntnisse GFR",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836165729": 3,
+            "m_1775836181652": 2
+          }
+        },
+        {
+          "id": "s_1775836394945",
+          "name": "Fachkenntnisse Tochtergesellschaften Beteiligungen",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836146167": 3,
+            "m_1775836127402": 2
+          }
+        },
+        {
+          "id": "s_1775836395201",
+          "name": "Fachkenntnisse Steuern",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836220909": 3
+          }
+        },
+        {
+          "id": "s_1775836548521",
+          "name": "Fachkenntnisse Steuerungsmodell/Organisationesreglemente/Weisungen",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836220909": 1,
+            "m_1775836181652": 1,
+            "m_1775836165729": 1,
+            "m_1775836146167": 1,
+            "m_1775836127402": 2
+          }
+        },
+        {
+          "id": "s_1775836594799",
+          "name": "Fachkenntnisse Proejktportfolio",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836146167": 2
+          }
+        },
+        {
+          "id": "s_1775836612799",
+          "name": "Fachkenntnisse FTE / Personal",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836146167": 2
+          }
+        }
+      ],
+      "Methodik": [
+        {
+          "id": "s_1775836694147",
+          "name": "Prozesskenntnisse zu JP (jeweiliges Fachgebiet)",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 3,
+            "m_1775836146167": 3,
+            "m_1775836165729": 3,
+            "m_1775836220909": 3,
+            "m_1775836181652": 1
+          }
+        },
+        {
+          "id": "s_1775836696764",
+          "name": "Prozesskenntnisse zu MJP (jeweiliges Fachgebiet)",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 3,
+            "m_1775836146167": 3,
+            "m_1775836165729": 3,
+            "m_1775836181652": 1,
+            "m_1775836220909": 3
+          }
+        },
+        {
+          "id": "s_1775836697350",
+          "name": "Prozesskenntnisse zu FC (jeweiliges Fachgebiet)",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 3,
+            "m_1775836146167": 3,
+            "m_1775836165729": 3,
+            "m_1775836220909": 3,
+            "m_1775836181652": 1
+          }
+        },
+        {
+          "id": "s_1775836698039",
+          "name": "PowerBI EndUser",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836181652": 3,
+            "m_1775836165729": 1,
+            "m_1775836220909": 1,
+            "m_1775836127402": 1,
+            "m_1775836146167": 1
+          }
+        },
+        {
+          "id": "s_1775836699269",
+          "name": "SAP / AfO",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 2,
+            "m_1775836146167": 3,
+            "m_1775836165729": 1,
+            "m_1775836220909": 2,
+            "m_1775836181652": 1
+          }
+        },
+        {
+          "id": "s_1775836805832",
+          "name": "PowerBI Developer",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836181652": 3
+          }
+        },
+        {
+          "id": "s_1775836806402",
+          "name": "S4 Anwender",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 1,
+            "m_1775836146167": 2,
+            "m_1775836165729": 2,
+            "m_1775836181652": 2,
+            "m_1775836220909": 2
+          }
+        },
+        {
+          "id": "s_1775836806890",
+          "name": "Anaplan EndUser",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836165729": 1
+          }
+        },
+        {
+          "id": "s_1775836807499",
+          "name": "Anaplan Modeller",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {}
+        },
+        {
+          "id": "s_1775836808497",
+          "name": "AI EndUSer",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 1,
+            "m_1775836146167": 1,
+            "m_1775836165729": 2,
+            "m_1775836181652": 2,
+            "m_1775836220909": 2
+          }
+        },
+        {
+          "id": "s_1775836919738",
+          "name": "AI Agents ",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {}
+        }
+      ],
+      "Testing": [
+        {
+          "id": "s_1775836646774",
+          "name": "Office-Kenntnisse",
+          "level": 3,
+          "desc": "Beschreibung...",
+          "scores": {
+            "m_1775836127402": 2,
+            "m_1775836146167": 2,
+            "m_1775836165729": 2,
+            "m_1775836181652": 2,
+            "m_1775836220909": 2
+          }
+        }
+      ],
+      "Soft Skills": [],
+      "Wildschweinjagd": []
+    },
+    "jobProfile": {
+      "title": "Controller (w/m/d)",
+      "subtitle": "Finanzen / Bern / Berufserfahrene / 80 - 100%",
+      "intro": "",
+      "tasksTitle": "Das bewirkst du bei uns",
+      "tasks": []
+    },
+    "tasks": [
+      {
+        "id": "task_1775836099276",
+        "category": "Allgemein",
+        "name": "SVV-Reporting erstellen",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1775836072118",
+        "category": "Allgemein",
+        "name": "CIR Report erstellen",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1775836055527",
+        "category": "Allgemein",
+        "name": "Bericht Geldflussrechnung erstellen",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1775836028429",
+        "category": "Allgemein",
+        "name": "Jahresplanung erstellen",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1775836004232",
+        "category": "Allgemein",
+        "name": "Mehrjahresplanung erstellen",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1775835961715",
+        "category": "Allgemein",
+        "name": "FüCo Report (GL, VR) erstellen",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      },
+      {
+        "id": "task_1775835928758",
+        "category": "Allgemein",
+        "name": "FüCo pro Teilbereich erstellen",
+        "desc": "Klicken um Beschreibung zu bearbeiten...",
+        "requiredSkills": []
+      }
+    ],
+    "memberTasks": {
+      "m_1775836127402": [
+        "task_1775836028429",
+        "task_1775836004232",
+        "task_1775835961715",
+        "task_1775835928758"
+      ],
+      "m_1775836146167": [
+        "task_1775836028429",
+        "task_1775836004232",
+        "task_1775835928758",
+        "task_1775835961715"
+      ],
+      "m_1775836165729": [
+        "task_1775835961715",
+        "task_1775835928758",
+        "task_1775836004232",
+        "task_1775836028429"
+      ],
+      "m_1775836181652": [
+        "task_1775836055527",
+        "task_1775836099276",
+        "task_1775836072118",
+        "task_1775835928758",
+        "task_1775835961715",
+        "task_1775836028429",
+        "task_1775836004232"
+      ],
+      "m_1775836220909": [
+        "task_1775836028429",
+        "task_1775836004232",
+        "task_1775835928758",
+        "task_1775835961715"
+      ]
+    },
+    "targetTasks": [],
+    "excludedTargetSkills": []
+  }
+]

@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinetic Matrix - Kompetenz-Management</title>
+    
+    <!-- FONTS: Manrope & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- STABILE BIBLIOTHEKEN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.10.3/umd/Recharts.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- TAILWIND CONFIG FOR DESIGN SYSTEM -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#D30018',
+                        'primary-container': '#E2001A',
+                        'primary-fixed': '#FCE8E9',
+                        'on-primary-fixed': '#410002',
+                        surface: '#F4F5F7',
+                        'surface-container-low': '#F8F9FB',
+                        'surface-container-lowest': '#FFFFFF',
+                        'surface-container-high': '#E2E4E9',
+                        'on-surface': '#111827',
+                        'on-surface-variant': '#6B7280',
+                    },
+                    fontFamily: {
+                        manrope: ['Manrope', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'ambient': '0 8px 30px -4px rgba(0, 0, 0, 0.04)',
+                        'ambient-hover': '0 20px 40px -8px rgba(0, 0, 0, 0.08)',
+                    },
+                    borderRadius: {
+                        'lg': '12px',
+                        'xl': '16px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #F4F5F7; color: #111827; font-family: 'Inter', sans-serif; overflow: hidden; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #E2E4E9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+        
+        .editable-field {
+            background: transparent;
+            border-radius: 6px;
+            transition: all 0.2s;
+            width: 100%;
+            border: 1px solid transparent;
+        }
+        .editable-field:hover, .editable-field:focus {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: #E2E4E9;
+            outline: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .tab-transition {
+            animation: smoothTabFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 0;
+            will-change: opacity, transform, filter;
+        }
+        @keyframes smoothTabFade {
+            0% { opacity: 0; transform: translateY(8px) scale(0.98); filter: blur(4px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
+        @media print {
+            .no-print, .no-print * { display: none !important; }
+            html, body, #root, .min-h-screen, main, .overflow-hidden, .overflow-y-auto, .h-\[calc\(100vh-220px\)\] {
+                height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; background: white !important;
+            }
+            .print-container { padding: 0 !important; margin: 0 !important; }
+            #printable-job-profile {
+                width: 100% !important; max-width: 100% !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important;
+                transform: scale(1) !important;
+            }
+            input, textarea, .editable-field {
+                border: none !important; outline: none !important; background: transparent !important; box-shadow: none !important; resize: none !important; padding-left: 0 !important; padding-right: 0 !important;
+            }
+            ::-webkit-scrollbar { display: none !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo, useEffect, useRef } = React;
+        const { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend, Tooltip: RechartsTooltip } = Recharts;
+
+        const BRAND_COLOR = '#D30018'; 
+
+        const Icon = ({ d, children, className, ...props }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>{d ? <path d={d} /> : children}</svg>
+        );
+        const Icons = {
+            Database: (p) => <Icon {...p}><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></Icon>,
+            FileText: (p) => <Icon {...p}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></Icon>,
+            Filter: (p) => <Icon {...p}><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></Icon>,
+            Users: (p) => <Icon {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></Icon>,
+            Save: (p) => <Icon {...p}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></Icon>,
+            Plus: (p) => <Icon {...p}><path d="M5 12h14"/><path d="M12 5v14"/></Icon>,
+            Trash2: (p) => <Icon {...p}><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></Icon>,
+            Edit2: (p) => <Icon {...p}><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></Icon>,
+            Check: (p) => <Icon {...p} d="M20 6 9 17l-5-5" />,
+            X: (p) => <Icon {...p}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></Icon>,
+            ChevronDown: (p) => <Icon {...p} d="m6 9 6 6 6-6" />,
+            ChevronRight: (p) => <Icon {...p} d="m9 18 6-6-6-6" />,
+            Code: (p) => <Icon {...p}><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></Icon>,
+            Tool: (p) => <Icon {...p}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></Icon>,
+            BookOpen: (p) => <Icon {...p}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></Icon>,
+            Eye: (p) => <Icon {...p}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></Icon>,
+            ZoomIn: (p) => <Icon {...p}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></Icon>,
+            ZoomOut: (p) => <Icon {...p}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></Icon>,
+            Maximize: (p) => <Icon {...p}><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></Icon>,
+            Printer: (p) => <Icon {...p}><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></Icon>,
+            LogoMark: (p) => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={p.className}><rect width="24" height="24" rx="6" fill="#D30018"/><circle cx="12" cy="12" r="5" stroke="white" strokeWidth="2"/><path d="M12 9V12L14 14" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>,
+            Search: (p) => <Icon {...p}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></Icon>,
+            ListTodo: (p) => <Icon {...p}><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></Icon>,
+            UserCheck: (p) => <Icon {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></Icon>,
+            GripVertical: (p) => <Icon {...p}><circle cx="9" cy="12" r="1.5"/><circle cx="9" cy="5" r="1.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="15" cy="5" r="1.5"/><circle cx="15" cy="19" r="1.5"/></Icon>,
+        };
+
+        const AutoTextarea = ({ value, onChange, className, rows = 1, placeholder }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) { ref.current.style.height = 'auto'; ref.current.style.height = ref.current.scrollHeight + 'px'; }
+            }, [value]);
+            return <textarea ref={ref} value={value} onChange={onChange} className={`${className} resize-none overflow-hidden`} rows={rows} placeholder={placeholder} />;
+        };
+
+        // EINGEBETTETE JSON DATEN
+        const defaultDepartmentsData = [
+  {
+    "id": "dept_bicc",
+    "name": "BICC",
+    "members": [
+      { "id": "cp1212", "name": "Christoph Pächter", "short": "CP", "color": "#1f77b4" },
+      { "id": "mk1212", "name": "Mario Kauer", "short": "MK", "color": "#ff7f0e" },
+      { "id": "ms1212", "name": "Marcel Schneiter", "short": "MS", "color": "#2ca02c" },
+      { "id": "rw1212", "name": "Reto Wysseier", "short": "RW", "color": "#d62728" },
+      { "id": "re1212", "name": "Roland Erb", "short": "RE", "color": "#9467bd" },
+      { "id": "sm1212", "name": "Samira Moser", "short": "SM", "color": "#8c564b" },
+      { "id": "m_1774939289585", "name": "Stefan Jost", "short": "SJ", "color": "#e377c2", "title": "Rolle" }
+    ],
+    "skills": {
+      "Business Analyse & Kundenbegleitung": [
+        { "id": "ba1", "name": "Controlling (CO / Reporting) BERE", "scores": { "cp1212": 1, "mk1212": 2, "rw1212": 2 } },
+        { "id": "ba2", "name": "Controlling (Forecast/ Planung) Kosten", "scores": { "cp1212": 1, "mk1212": 2, "rw1212": 2 } },
+        { "id": "ba3", "name": "Finanzen (FI)", "scores": { "cp1212": 1, "mk1212": 1, "rw1212": 2 } },
+        { "id": "ba10", "name": "Business Analyse", "scores": { "cp1212": 2, "mk1212": 2, "ms1212": 2, "rw1212": 2, "re1212": 2, "sm1212": 2 } }
+      ],
+      "Betrieb & Stabilität": [
+        { "id": "op3", "name": "Incident Management, OSS", "scores": { "cp1212": 2, "mk1212": 2, "ms1212": 2, "rw1212": 1 } },
+        { "id": "op4", "name": "Monitoring", "scores": { "cp1212": 2, "mk1212": 2, "ms1212": 1 } },
+        { "id": "op6", "name": "Monatliche Beladung", "scores": { "cp1212": 2, "mk1212": 2, "ms1212": 2, "rw1212": 1, "re1212": 2, "sm1212": 2 } }
+      ],
+      "Development & Tools": [
+        { "id": "dev3", "name": "Analysis for Office (AfO)", "scores": { "cp1212": 2, "mk1212": 2, "ms1212": 2, "rw1212": 2, "re1212": 2, "sm1212": 1 } },
+        { "id": "dev7", "name": "SAP BW/4 Modeling", "scores": { "cp1212": 2, "mk1212": 2, "ms1212": 2, "rw1212": 2, "re1212": 2 } }
+      ]
+    },
+    "jobProfile": {
+      "title": "Controller (w/m/d)",
+      "subtitle": "Finanzen / Bern / Berufserfahrene / 80 - 100%",
+      "intro": "Als Controller:in mit einer Leidenschaft für Daten erwartet dich bei der Mobiliar eine spannende Rolle in einem zukunftsorientierten Umfeld.",
+      "tasksTitle": "Das bewirkst du bei uns",
+      "tasks": [ "In unserem Team übernimmst du die spannende Aufgabe..." ],
+      "requirementsTitle": "Das bringst du mit",
+      "requirements": [ "Hochschulabschluss in Betriebswirtschaft" ]
+    },
+    "tasks": [
+      { "id": "t_b1", "category": "Betrieb", "name": "Prozesskettenmonitoring", "requiredSkills": [ "op4", "op6" ] },
+      { "id": "t_ba1", "category": "Business Analyse", "name": "Anforderungsanalyse mit den Stakeholdern", "requiredSkills": [ "ba10" ] }
+    ],
+    "memberTasks": {
+      "rw1212": [ "t_b1", "t_ba1" ]
+    },
+    "targetTasks": [],
+    "excludedTargetSkills": []
+  },
+  {
+    "id": "dept_3",
+    "name": "P&R",
+    "members": [
+      { "id": "m_1775836127402", "name": "Claude Schär", "short": "CS", "color": "#1f77b4", "title": "BW 3" },
+      { "id": "m_1775836181652", "name": "Rölli Sabrina", "short": "RS", "color": "#d62728", "title": "BW 2" }
+    ],
+    "skills": {
+      "Fachkompetenz": [
+        { "id": "s_1775836324741", "name": "Fachkenntnisse Versicherungen", "level": 3, "scores": { "m_1775836127402": 3 } },
+        { "id": "s_1775836394450", "name": "Fachkenntnisse Risk / EVM", "level": 3, "scores": { "m_1775836181652": 2 } }
+      ],
+      "Methodik": [
+        { "id": "s_1775836646774", "name": "Office-Kenntnisse", "level": 3, "scores": { "m_1775836127402": 2, "m_1775836181652": 2 } }
+      ]
+    },
+    "jobProfile": { "title": "Controller (w/m/d)", "tasks": [] },
+    "tasks": [
+      { "id": "task_1775836028429", "category": "Allgemein", "name": "Jahresplanung erstellen", "requiredSkills": [] }
+    ],
+    "memberTasks": {
+      "m_1775836127402": [ "task_1775836028429" ]
+    },
+    "targetTasks": []
+  }
+];
+
+        const cleanInitialScores = (skillsObj) => {
+            const cleaned = {};
+            for (const [cat, skills] of Object.entries(skillsObj)) {
+                cleaned[cat] = skills.map(skill => {
+                    const newScores = {};
+                    for (const [member, score] of Object.entries(skill.scores || {})) {
+                        if (score > 0) newScores[member] = score;
+                    }
+                    return { ...skill, scores: newScores };
+                });
+            }
+            return cleaned;
+        };
+
+        // --- COMPONENTS ---
+
+        const MatrixDot = ({ level, isDerived, derivedScore, onClick, isEditable }) => {
+            const cursorClass = isEditable ? "cursor-pointer hover:scale-110 transition-transform" : "cursor-default";
+            const taskRequires = derivedScore > 0;
+            
+            const marker = (isDerived && level > 0) ? <div className="absolute -right-2 -top-2 bg-blue-100 text-blue-700 text-[8px] font-bold px-1 rounded-sm z-10 shadow-sm leading-tight">A</div> : null;
+            const gap = (!isDerived && taskRequires && level < derivedScore) ? <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#D30018] rounded-full"></div> : null;
+
+            let dot;
+            if (level === 0) {
+                dot = <div className={`w-3.5 h-3.5 rounded-full border border-transparent ${cursorClass}`}></div>; 
+            } else if (level === 1) {
+                dot = <div className={`w-3.5 h-3.5 rounded-full border-[2px] border-gray-500 ${cursorClass}`} title="Basis"></div>;
+            } else if (level === 2) {
+                dot = <div className={`w-3.5 h-3.5 rounded-full bg-gray-900 ${cursorClass}`} title="Standard"></div>;
+            } else {
+                dot = (
+                    <div className={`w-3.5 h-3.5 bg-[#D30018] rotate-45 transform flex items-center justify-center ${cursorClass}`} title="Expert">
+                        <div className="w-1.5 h-1.5 border border-white rotate-45"></div>
+                    </div>
+                );
+            }
+            
+            return (
+                <div onClick={isEditable ? onClick : undefined} className="flex items-center justify-center w-full h-8 relative group">
+                    <div className="relative flex items-center justify-center">
+                        {dot}
+                        {marker}
+                        {gap}
+                    </div>
+                    {isEditable && <div className="absolute inset-0 rounded-lg hover:bg-gray-100 -z-10 transition-colors"></div>}
+                </div>
+            );
+        };
+
+        const CustomCheckbox = ({ checked, onChange, color = '#D30018' }) => (
+            <label className="custom-checkbox relative flex items-center cursor-pointer" onClick={e => e.stopPropagation()}>
+                <input type="checkbox" className="sr-only" checked={checked} onChange={onChange} />
+                <div 
+                    className={`w-[22px] h-[22px] rounded-md flex items-center justify-center transition-colors border-[2px] ${checked ? 'text-white' : 'bg-white border-gray-300 hover:border-gray-400'}`}
+                    style={checked ? { backgroundColor: color, borderColor: color } : {}}
+                >
+                    <Icons.Check className={`w-3.5 h-3.5 text-white ${checked ? 'block' : 'hidden'}`} strokeWidth="3" />
+                </div>
+            </label>
+        );
+
+        // --- CUSTOM DIALOG SYSTEM ---
+        const AppDialog = ({ dialog, onClose }) => {
+            if (!dialog) return null;
+            const [inputValue, setInputValue] = useState(dialog.defaultValue || '');
+
+            return (
+                <div className="fixed inset-0 bg-on-surface/50 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+                    <div className="bg-surface-container-lowest shadow-ambient rounded-2xl p-8 w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+                        <h2 className="text-xl font-manrope font-bold text-on-surface mb-2">{dialog.title}</h2>
+                        <p className="text-sm text-on-surface-variant mb-6">{dialog.message}</p>
+                        
+                        {dialog.type === 'prompt' && (
+                            <input 
+                                autoFocus
+                                className="w-full bg-surface-container-low border border-surface-container-high/50 rounded-lg px-4 py-3 text-sm font-semibold focus:outline-none focus:border-primary transition-colors mb-6" 
+                                value={inputValue} 
+                                onChange={e=>setInputValue(e.target.value)}
+                                onKeyDown={e=>e.key === 'Enter' && dialog.onConfirm(inputValue)}
+                            />
+                        )}
+
+                        <div className="flex justify-end gap-3">
+                            {dialog.type !== 'alert' && (
+                                <button onClick={onClose} className="px-5 py-2.5 text-on-surface hover:bg-surface-container-high rounded-lg text-sm font-bold transition-colors">Abbrechen</button>
+                            )}
+                            <button 
+                                onClick={() => dialog.onConfirm(inputValue)} 
+                                className="px-6 py-2.5 text-white rounded-lg text-sm font-bold shadow-md bg-primary hover:bg-primary-container transition-colors"
+                            >
+                                {dialog.type === 'alert' ? 'OK' : 'Bestätigen'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- TEAM MANAGER MODAL ---
+        const TeamManager = ({ members, onUpdate, onClose }) => {
+            const [localMembers, setLocalMembers] = useState(members);
+
+            const handleChange = (id, field, val) => { setLocalMembers(prev => prev.map(m => m.id === id ? { ...m, [field]: val } : m)); };
+            const handleAdd = () => {
+                const newId = `m_${Date.now()}`;
+                const colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
+                setLocalMembers(prev => [...prev, { id: newId, name: 'Neuer Mitarbeiter', short: 'NM', color: colors[localMembers.length % colors.length], title: 'Rolle' }]);
+            };
+            const handleDelete = (id) => { 
+                setLocalMembers(prev => prev.filter(m => m.id !== id)); 
+            };
+            const handleSave = () => { onUpdate(localMembers); onClose(); };
+
+            return (
+                <div className="fixed inset-0 bg-on-surface/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-surface-container-lowest shadow-ambient rounded-2xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-8 border-b border-surface-container-high/50 pb-4">
+                            <div>
+                                <h2 className="text-2xl font-manrope font-bold text-on-surface">Team verwalten</h2>
+                                <p className="text-sm text-on-surface-variant">Mitarbeiter hinzufügen, umbenennen oder Rollen zuweisen.</p>
+                            </div>
+                            <button onClick={onClose} className="text-on-surface-variant hover:text-primary transition-colors"><Icons.X className="w-6 h-6"/></button>
+                        </div>
+                        <div className="space-y-3 mb-8">
+                            {localMembers.map((m) => (
+                                <div key={m.id} className="flex gap-4 items-center bg-surface-container-low p-3 rounded-xl border border-surface-container-high/30">
+                                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm" style={{backgroundColor: m.color}}>{m.short}</div>
+                                    <input type="text" value={m.name} onChange={e=>handleChange(m.id,'name',e.target.value)} className="bg-surface-container-lowest border border-surface-container-high/50 px-3 py-2 w-1/3 text-sm font-semibold rounded-lg focus:outline-none focus:border-primary transition-colors" placeholder="Name" />
+                                    <input type="text" value={m.title || ''} onChange={e=>handleChange(m.id,'title',e.target.value)} className="bg-surface-container-lowest border border-surface-container-high/50 px-3 py-2 flex-1 text-sm font-semibold rounded-lg focus:outline-none focus:border-primary transition-colors" placeholder="Rolle / Jobtitel" />
+                                    <input type="text" value={m.short} onChange={e=>handleChange(m.id,'short',e.target.value)} className="bg-surface-container-lowest border border-surface-container-high/50 px-3 py-2 w-16 text-sm font-semibold rounded-lg text-center uppercase focus:outline-none focus:border-primary transition-colors" placeholder="Kürzel" maxLength="3" />
+                                    <input type="color" value={m.color} onChange={e=>handleChange(m.id,'color',e.target.value)} className="w-10 h-10 p-0 border-0 rounded cursor-pointer shrink-0" title="Farbe wählen" />
+                                    <button onClick={()=>handleDelete(m.id)} className="text-on-surface-variant hover:text-primary p-2 transition-colors shrink-0" title="Mitarbeiter löschen"><Icons.Trash2 className="w-5 h-5"/></button>
+                                </div>
+                            ))}
+                            {localMembers.length === 0 && <p className="text-sm text-on-surface-variant italic">Noch keine Mitarbeiter vorhanden.</p>}
+                        </div>
+                        <div className="flex justify-between pt-6 border-t border-surface-container-high/50">
+                            <button onClick={handleAdd} className="flex items-center gap-2 text-sm text-primary font-bold hover:bg-primary-fixed px-5 py-2.5 rounded-lg transition-colors"><Icons.Plus className="w-4 h-4"/> Mitarbeiter hinzufügen</button>
+                            <div className="flex gap-3">
+                                <button onClick={onClose} className="px-5 py-2.5 text-on-surface hover:bg-surface-container-high rounded-lg text-sm font-bold transition-colors">Abbrechen</button>
+                                <button onClick={handleSave} className="px-6 py-2.5 text-white rounded-lg text-sm font-bold shadow-md bg-primary hover:bg-primary-container transition-colors">Speichern</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- MAIN APP ---
+        function KineticMatrixApp() {
+            const [activeTab, setActiveTab] = useState('matrix'); 
+            const [isLoaded, setIsLoaded] = useState(false);
+            const [searchQuery, setSearchQuery] = useState('');
+            const searchInputRef = useRef(null);
+            
+            const [lastImportTime, setLastImportTime] = useState(() => new Date());
+
+            const [departments, setDepartments] = useState(() => {
+                const saved = localStorage.getItem('kinetic_matrix_data_v11_ger');
+                if (saved) {
+                    try { return JSON.parse(saved); } catch(e) {}
+                }
+                return defaultDepartmentsData.map(dept => ({
+                    ...dept,
+                    skills: cleanInitialScores(dept.skills)
+                }));
+            });
+
+            // Lade externe JSON Datei automatisch, wenn verfügbar
+            useEffect(() => {
+                fetch('Datenquelle.json')
+                    .then(response => {
+                        if (!response.ok) throw new Error("Network response was not ok");
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                            const validated = data.map(d => ({
+                                ...d,
+                                jobProfile: d.jobProfile || defaultDepartmentsData[0].jobProfile,
+                                tasks: d.tasks || [],
+                                skills: cleanInitialScores(d.skills || defaultDepartmentsData[0].skills),
+                                excludedTargetSkills: d.excludedTargetSkills || [],
+                                targetTasks: d.targetTasks || []
+                            }));
+                            setDepartments(validated);
+                            setLastImportTime(new Date());
+                            console.log("Externe Datenquelle.json erfolgreich geladen.");
+                        }
+                    })
+                    .catch(err => {
+                        console.warn("Konnte Datenquelle.json nicht automatisch laden (z.B. wegen lokaler Datei-Restriktionen oder CORS). Nutze stattdessen eingebettete/gespeicherte Daten.", err);
+                    });
+            }, []);
+
+            const [activeDeptId, setActiveDeptId] = useState(null);
+            
+            useEffect(() => {
+                if(!activeDeptId && departments.length > 0) setActiveDeptId(departments[0].id);
+            }, [departments, activeDeptId]);
+
+            const currentDept = departments.find(d => d.id === activeDeptId) || departments[0] || null;
+
+            const [showTeamManager, setShowTeamManager] = useState(false);
+            const [editingDeptId, setEditingDeptId] = useState(null);
+            const [editingSkillId, setEditingSkillId] = useState(null);
+            const [editNameVal, setEditNameVal] = useState("");
+            const [editingCatName, setEditingCatName] = useState(null);
+            const [editCatNameVal, setEditCatNameVal] = useState("");
+            
+            const [showOnlyRequiredSkills, setShowOnlyRequiredSkills] = useState(false);
+            const [pdfZoom, setPdfZoom] = useState(1);
+            const [dialog, setDialog] = useState(null);
+
+            const [isDeptMenuOpen, setIsDeptMenuOpen] = useState(false);
+            const deptMenuRef = useRef(null);
+
+            // --- DRAG AND DROP STATE ---
+            const [draggedSkill, setDraggedSkill] = useState(null);
+            const [dragOverCat, setDragOverCat] = useState(null);
+
+            useEffect(() => {
+                const handleClickOutside = (event) => {
+                    if (deptMenuRef.current && !deptMenuRef.current.contains(event.target)) {
+                        setIsDeptMenuOpen(false);
+                    }
+                };
+                document.addEventListener("mousedown", handleClickOutside);
+                return () => document.removeEventListener("mousedown", handleClickOutside);
+            }, [deptMenuRef]);
+
+            const confirmAction = (title, message, onConfirm) => { setDialog({ type: 'confirm', title, message, onConfirm: () => { onConfirm(); setDialog(null); } }); };
+            const promptAction = (title, message, defaultValue, onConfirm) => { setDialog({ type: 'prompt', title, message, defaultValue, onConfirm: (val) => { onConfirm(val); setDialog(null); } }); };
+            const alertAction = (title, message) => { setDialog({ type: 'alert', title, message, onConfirm: () => setDialog(null) }); };
+
+            const updateCurrentDept = (newData) => { setDepartments(prev => prev.map(d => d.id === currentDept.id ? { ...d, ...newData } : d)); };
+            const updateJobProfile = (field, value) => { updateCurrentDept({ jobProfile: { ...currentDept.jobProfile, [field]: value } }); };
+
+            useEffect(() => { 
+                if (isLoaded) localStorage.setItem('kinetic_matrix_data_v11_ger', JSON.stringify(departments)); 
+            }, [departments, isLoaded]);
+            useEffect(() => setIsLoaded(true), []);
+
+            const [selectedTaskId, setSelectedTaskId] = useState(null);
+            const [selectedAssignee, setSelectedAssignee] = useState(null);
+            const [visibleMembers, setVisibleMembers] = useState({ target: true });
+            const fileInputRef = useRef(null);
+
+            useEffect(() => {
+                if(currentDept) {
+                    setSelectedTaskId(currentDept.tasks[0]?.id || null);
+                    setSelectedAssignee(currentDept.members[0]?.id || null);
+                }
+            }, [currentDept?.id]);
+            
+            useEffect(() => {
+                if (currentDept && currentDept.members) {
+                    setVisibleMembers(prev => {
+                        const newState = { target: prev.target !== undefined ? prev.target : true };
+                        currentDept.members.forEach(m => { newState[m.id] = prev[m.id] !== undefined ? prev[m.id] : true; });
+                        return newState;
+                    });
+                }
+            }, [currentDept]);
+
+            const [expandedTaskCats, setExpandedTaskCats] = useState({});
+
+            // --- CRUD ---
+            const handleAddDepartment = () => {
+                promptAction("Neue Abteilung", "Geben Sie den Namen der neuen Abteilung ein:", "Neue Abteilung", (newDeptName) => {
+                    if(!newDeptName || newDeptName.trim() === "") return;
+                    const newId = `dept_${Date.now()}`;
+                    const newDept = {
+                        id: newId, name: newDeptName, members: [],
+                        skills: { "Allgemein": [] }, jobProfile: defaultDepartmentsData[0].jobProfile,
+                        tasks: [], memberTasks: {}, targetTasks: [], excludedTargetSkills: []
+                    };
+                    setDepartments(prev => [...prev, newDept]);
+                    setActiveDeptId(newId);
+                });
+            };
+
+            const handleRenameDepartment = () => {
+                promptAction("Abteilung umbenennen", "Geben Sie den neuen Namen ein:", currentDept.name, (newName) => {
+                    if(newName && newName.trim() !== "") updateCurrentDept({ name: newName });
+                });
+            };
+
+            const handleDeleteDepartment = () => {
+                if (departments.length <= 1) {
+                    alertAction("Hinweis", "Du kannst die letzte verbleibende Abteilung nicht löschen.");
+                    return;
+                }
+                confirmAction("Abteilung löschen", `Möchtest du die Abteilung "${currentDept.name}" wirklich komplett löschen?`, () => {
+                    const newDepts = departments.filter(d => d.id !== currentDept.id);
+                    setDepartments(newDepts);
+                    setActiveDeptId(newDepts[0].id);
+                });
+            };
+
+            const handleUpdateTeam = (newMembers) => { updateCurrentDept({ members: newMembers }); };
+
+            const handleAddTask = (categoryName = "Allgemein") => {
+                const newId = `task_${Date.now()}`;
+                const newTask = { id: newId, category: categoryName, name: "Neue Aufgabe", desc: "Klicken um Beschreibung zu bearbeiten...", requiredSkills: [] };
+                updateCurrentDept({ tasks: [newTask, ...currentDept.tasks] });
+                setSelectedTaskId(newId);
+                setExpandedTaskCats(prev => ({...prev, [categoryName]: true}));
+            };
+
+            const handleDeleteTask = (taskId) => {
+                 confirmAction("Aufgabe löschen", "Möchten Sie diese Aufgabe wirklich entfernen?", () => {
+                    updateCurrentDept({ tasks: currentDept.tasks.filter(t => t.id !== taskId) });
+                    if (selectedTaskId === taskId) setSelectedTaskId(currentDept.tasks[0]?.id || null);
+                 });
+            };
+
+            const handleUpdateTaskField = (taskId, field, value) => { updateCurrentDept({ tasks: currentDept.tasks.map(t => t.id === taskId ? { ...t, [field]: value } : t) }); };
+
+            const handleAddCategory = () => {
+                promptAction("Neue Kategorie", "Name der neuen Skill-Kategorie:", "", (catName) => {
+                    if(catName && catName.trim() !== "" && !currentDept.skills[catName]) {
+                        updateCurrentDept({ skills: { ...currentDept.skills, [catName]: [] } });
+                    } else if(currentDept.skills[catName]) {
+                        alertAction("Fehler", "Eine Kategorie mit diesem Namen existiert bereits.");
+                    }
+                });
+            };
+
+            const handleRenameCategory = (oldName, newName) => {
+                if (!newName.trim() || oldName === newName) { setEditingCatName(null); return; }
+                if (currentDept.skills[newName]) { alertAction("Fehler", "Dieser Kategoriename existiert bereits."); setEditingCatName(null); return; }
+                const newSkills = {};
+                Object.keys(currentDept.skills).forEach(key => { newSkills[key === oldName ? newName : key] = currentDept.skills[key]; });
+                updateCurrentDept({ skills: newSkills });
+                setEditingCatName(null);
+            };
+            
+            const handleDeleteCategory = (catName) => {
+                confirmAction("Kategorie löschen", `Kategorie "${catName}" mit allen darin enthaltenen Skills wirklich löschen?`, () => {
+                    const newSkills = { ...currentDept.skills }; delete newSkills[catName]; updateCurrentDept({ skills: newSkills });
+                });
+            };
+
+            const handleAddSkill = (catName) => {
+                const newId = `s_${Date.now()}`;
+                updateCurrentDept({ skills: { ...currentDept.skills, [catName]: [...currentDept.skills[catName], { id: newId, name: "Neuer Skill", level: 3, desc: "Beschreibung...", scores: {} }] }});
+            };
+            
+            const handleDeleteSkill = (catName, skillId) => {
+                confirmAction("Skill löschen", "Skill wirklich löschen? Er wird auch aus allen Aufgaben entfernt.", () => {
+                    const newSkills = { ...currentDept.skills, [catName]: currentDept.skills[catName].filter(s => s.id !== skillId) };
+                    const newTasks = currentDept.tasks.map(t => ({ ...t, requiredSkills: t.requiredSkills.filter(id => id !== skillId) }));
+                    updateCurrentDept({ skills: newSkills, tasks: newTasks });
+                });
+            };
+            
+            const handleRenameSkill = (catName, skillId, newName) => {
+                if(newName.trim() === "") { setEditingSkillId(null); return; }
+                updateCurrentDept({ skills: { ...currentDept.skills, [catName]: currentDept.skills[catName].map(s => s.id === skillId ? { ...s, name: newName } : s) }});
+                setEditingSkillId(null);
+            };
+
+            const getDerivedScore = (dept, memberId, skillId) => {
+                const assignedTasks = dept.memberTasks[memberId] || [];
+                return assignedTasks.some(tId => { const t = dept.tasks.find(x => x.id === tId); return t && t.requiredSkills.includes(skillId); }) ? 2 : 0;
+            };
+
+            const getEffectiveScore = (dept, memberId, skillId, explicitScores) => {
+                const explicit = explicitScores ? explicitScores[memberId] : undefined;
+                const derived = getDerivedScore(dept, memberId, skillId);
+                const isDerived = explicit === undefined || explicit === null;
+                return { score: isDerived ? derived : explicit, isDerived, derivedScore: derived };
+            };
+
+            const handleScoreClick = (catName, skillId, memberId, currentEffectiveScore, derivedScore) => {
+                let nextScore = currentEffectiveScore >= 3 ? 0 : currentEffectiveScore + 1;
+                let scoreToSave = nextScore === derivedScore ? null : nextScore;
+                
+                const newSkills = { ...currentDept.skills };
+                newSkills[catName] = newSkills[catName].map(s => {
+                    if(s.id === skillId) {
+                        const newScores = { ...(s.scores || {}) };
+                        if (scoreToSave === null) delete newScores[memberId]; else newScores[memberId] = scoreToSave;
+                        return { ...s, scores: newScores };
+                    }
+                    return s;
+                });
+                updateCurrentDept({ skills: newSkills });
+            };
+
+            const handleToggleTaskSkill = (taskId, skillId) => {
+                updateCurrentDept({ tasks: currentDept.tasks.map(t => {
+                    if (t.id === taskId) return { ...t, requiredSkills: t.requiredSkills.includes(skillId) ? t.requiredSkills.filter(id => id !== skillId) : [...t.requiredSkills, skillId] };
+                    return t;
+                })});
+            };
+
+            const handleToggleMemberTask = (memberId, taskId) => {
+                const tasks = currentDept.memberTasks[memberId] || [];
+                const newTasks = tasks.includes(taskId) ? tasks.filter(t => t !== taskId) : [...tasks, taskId];
+                updateCurrentDept({ memberTasks: { ...currentDept.memberTasks, [memberId]: newTasks } });
+            };
+
+            const handleToggleTargetTask = (taskId) => {
+                const targets = currentDept.targetTasks || [];
+                const newTargets = targets.includes(taskId) ? targets.filter(t => t !== taskId) : [...targets, taskId];
+                updateCurrentDept({ targetTasks: newTargets });
+            };
+
+            const handleExport = () => {
+                const blob = new Blob([JSON.stringify(departments, null, 2)], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = 'kinetic_matrix_export.json'; a.click();
+            };
+
+            const handleImportClick = () => { if (fileInputRef.current) { fileInputRef.current.value = ''; fileInputRef.current.click(); } };
+
+            const handleFileChange = (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const imp = JSON.parse(ev.target.result);
+                        if (Array.isArray(imp)) {
+                            const validated = imp.map(d => ({
+                                ...d,
+                                jobProfile: d.jobProfile || defaultDepartmentsData[0].jobProfile,
+                                tasks: d.tasks || [],
+                                skills: cleanInitialScores(d.skills || defaultDepartmentsData[0].skills),
+                                excludedTargetSkills: d.excludedTargetSkills || [],
+                                targetTasks: d.targetTasks || []
+                            }));
+                            setDepartments(validated);
+                            setLastImportTime(new Date());
+                            alertAction("Erfolg", "Daten erfolgreich importiert!");
+                        } else { alertAction("Fehler", "Ungültiges Dateiformat (Erwarte Array von Abteilungen)"); }
+                    } catch(err) { alertAction("Import-Fehler", err.message); }
+                };
+                reader.readAsText(file);
+            };
+
+            if(!currentDept) return <div className="p-8">Lade Daten...</div>;
+
+            const filteredTasks = currentDept.tasks.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()) || t.category.toLowerCase().includes(searchQuery.toLowerCase()));
+            const filteredMembers = currentDept.members.filter(m => m.name.toLowerCase().includes(searchQuery.toLowerCase()) || (m.title && m.title.toLowerCase().includes(searchQuery.toLowerCase())));
+
+            const tasksByCategory = filteredTasks.reduce((acc, t) => {
+                const category = t.category || "Allgemein";
+                if (!acc[category]) acc[category] = [];
+                acc[category].push(t);
+                return acc;
+            }, {});
+
+            const [expandedCats, setExpandedCats] = useState({});
+            const [matrixViewMode, setMatrixViewMode] = useState('categories'); // 'categories' | 'tasks'
+            const [expandedMatrixTasks, setExpandedMatrixTasks] = useState({});
+
+            const allSkillsFlat = Object.values(currentDept.skills).flat();
+            const activeTaskObj = currentDept.tasks.find(t => t.id === selectedTaskId);
+
+            const rawTargetSkillsIds = new Set();
+            (currentDept.targetTasks || []).forEach(tId => {
+                const task = currentDept.tasks.find(t=>t.id===tId);
+                if(task && task.requiredSkills) task.requiredSkills.forEach(s=>rawTargetSkillsIds.add(s));
+            });
+
+            const activeTargetSkillsData = [];
+            const toolSkills = [];
+            const coreSkills = [];
+            const softSkills = [];
+            
+            Object.entries(currentDept.skills).forEach(([cat, skills]) => {
+                const activeInCat = skills.filter(s => rawTargetSkillsIds.has(s.id) && !(currentDept.excludedTargetSkills || []).includes(s.id));
+                if (activeInCat.length === 0) return;
+                
+                activeTargetSkillsData.push(...activeInCat);
+
+                if (cat.toLowerCase().includes("tools") || cat.toLowerCase().includes("development") || cat.toLowerCase().includes("it") || cat.toLowerCase().includes("system")) {
+                    toolSkills.push(...activeInCat);
+                } else if (cat.toLowerCase().includes("soft skills") || cat.toLowerCase().includes("agile") || cat.toLowerCase().includes("organisation") || cat.toLowerCase().includes("methodik")) {
+                    softSkills.push(...activeInCat);
+                } else {
+                    coreSkills.push(...activeInCat);
+                }
+            });
+
+            // Dynamische Berechnungen für Radar & Matrix
+            let maxScoresSum = 0;
+            let criticalGapsCount = 0;
+            const targetSkillsList = allSkillsFlat.filter(s => rawTargetSkillsIds.has(s.id));
+            
+            targetSkillsList.forEach(s => {
+                let max = 0;
+                currentDept.members.forEach(m => {
+                    const { score } = getEffectiveScore(currentDept, m.id, s.id, s.scores);
+                    if(score > max) max = score;
+                });
+                maxScoresSum += max;
+                if(max < 2) criticalGapsCount++;
+            });
+            const teamScorePct = targetSkillsList.length ? Math.round((maxScoresSum / (targetSkillsList.length * 3)) * 100) : 0;
+
+            let topSkill = { name: "Keine Daten", score: 0 };
+            let bottomSkill = { name: "Soll-Profil leer", score: 3 };
+            let derivedCount = 0;
+
+            allSkillsFlat.forEach(s => {
+                let sum = 0;
+                currentDept.members.forEach(m => {
+                    const eff = getEffectiveScore(currentDept, m.id, s.id, s.scores);
+                    sum += eff.score;
+                    if(eff.isDerived && eff.score > 0) derivedCount++;
+                });
+                const avg = currentDept.members.length ? (sum / currentDept.members.length) : 0;
+                if (avg > topSkill.score) topSkill = { name: s.name, score: avg };
+            });
+
+            if (targetSkillsList.length > 0) {
+                targetSkillsList.forEach(s => {
+                    let sum = 0;
+                    currentDept.members.forEach(m => { sum += getEffectiveScore(currentDept, m.id, s.id, s.scores).score; });
+                    const avg = currentDept.members.length ? (sum / currentDept.members.length) : 0;
+                    if (avg <= bottomSkill.score) bottomSkill = { name: s.name, score: avg };
+                });
+            }
+
+            // DYNAMISCHES RADAR-MAPPING (Nutzt direkt die Kategorien-Namen der Abteilung)
+            const radarData = Object.entries(currentDept.skills).map(([cat, skills]) => {
+                const displayName = cat.toUpperCase();
+                const p = { subject: displayName, fullMark: 3 }; 
+                if (skills.length === 0) return p;
+
+                // 1. Filtern: Wir werten nur Skills aus, die für das aktuelle Soll-Profil benötigt werden.
+                let relevantSkills = skills.filter(s => rawTargetSkillsIds.has(s.id) && !(currentDept.excludedTargetSkills || []).includes(s.id));
+                
+                // 2. Fallback: Wenn noch gar kein Soll-Profil konfiguriert wurde, nehmen wir alle Skills, in denen IRGENDJEMAND im Team Punkte hat.
+                if (relevantSkills.length === 0) {
+                    relevantSkills = skills.filter(s => currentDept.members.some(m => getEffectiveScore(currentDept, m.id, s.id, s.scores).score > 0));
+                }
+
+                // 3. Fallback: Wenn alles leer ist, nehmen wir alle Skills.
+                if (relevantSkills.length === 0) {
+                    relevantSkills = skills;
+                }
+
+                currentDept.members.forEach(m => {
+                    const sum = relevantSkills.reduce((acc, s) => acc + getEffectiveScore(currentDept, m.id, s.id, s.scores).score, 0);
+                    p[m.id] = parseFloat((sum / relevantSkills.length).toFixed(2));
+                });
+
+                const tSum = relevantSkills.reduce((acc, s) => acc + (rawTargetSkillsIds.has(s.id) && !(currentDept.excludedTargetSkills || []).includes(s.id) ? 3 : 0), 0);
+                p.target = parseFloat((tSum / relevantSkills.length).toFixed(2));
+                return p;
+            });
+
+            const getTaskIcon = (taskName) => {
+                const lower = taskName.toLowerCase();
+                if (lower.includes('entwicklung') || lower.includes('daten') || lower.includes('api') || lower.includes('sdk')) return <Icons.Code className="w-5 h-5"/>;
+                if (lower.includes('betrieb') || lower.includes('management') || lower.includes('wartung')) return <Icons.Tool className="w-5 h-5"/>;
+                if (lower.includes('analyse') || lower.includes('report') || lower.includes('planung')) return <Icons.Database className="w-5 h-5"/>;
+                return <Icons.BookOpen className="w-5 h-5"/>;
+            };
+
+            return (
+                <div className="flex h-screen bg-surface font-inter text-on-surface overflow-hidden">
+                    <AppDialog dialog={dialog} onClose={() => setDialog(null)} />
+                    
+                    {/* SIDEBAR */}
+                    <aside className="w-[260px] bg-surface-container-low border-r border-surface-container-high/60 flex flex-col z-20 no-print shrink-0">
+                        <div className="p-6 pb-8 flex flex-col gap-4">
+                            <div className="flex items-center gap-3">
+                                <Icons.LogoMark className="shrink-0" />
+                                <div>
+                                    <h1 className="font-manrope font-bold text-lg leading-tight tracking-tight">Kinetic Matrix</h1>
+                                    <p className="text-[9px] text-on-surface-variant font-bold uppercase tracking-widest">Kompetenz-Management</p>
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-2 bg-surface-container-lowest border border-surface-container-high/50 p-2 rounded-xl shadow-sm">
+                                <div className="relative flex-1 min-w-0" ref={deptMenuRef}>
+                                    <div 
+                                        className="w-full bg-transparent text-xs font-bold text-on-surface outline-none cursor-pointer pr-6 pl-2 truncate relative flex items-center"
+                                        onClick={() => setIsDeptMenuOpen(!isDeptMenuOpen)}
+                                    >
+                                        <span className="truncate flex-1">{currentDept ? currentDept.name : 'Wählen...'}</span>
+                                        <Icons.ChevronDown className="w-3.5 h-3.5 absolute right-0 text-on-surface-variant pointer-events-none" />
+                                    </div>
+                                    
+                                    {isDeptMenuOpen && (
+                                        <div className="absolute left-0 top-full mt-3 w-[200px] bg-surface-container-lowest border border-surface-container-high/50 rounded-xl shadow-ambient z-50 overflow-hidden py-1 animate-in fade-in zoom-in-95 duration-100">
+                                            {departments.map(d => (
+                                                <div 
+                                                    key={d.id} 
+                                                    onClick={() => { setActiveDeptId(d.id); setIsDeptMenuOpen(false); }}
+                                                    className={`px-4 py-2.5 text-xs font-semibold cursor-pointer transition-colors ${activeDeptId === d.id ? 'bg-primary-fixed text-primary' : 'text-on-surface hover:bg-surface-container-low'}`}
+                                                >
+                                                    {d.name}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex gap-1 border-l border-surface-container-high/50 pl-2 shrink-0">
+                                    <button onClick={handleAddDepartment} title="Neue Abteilung" className="text-on-surface-variant hover:text-primary transition-colors"><Icons.Plus className="w-4 h-4"/></button>
+                                    <button onClick={handleRenameDepartment} title="Abteilung umbenennen" className="text-on-surface-variant hover:text-primary transition-colors"><Icons.Edit2 className="w-3.5 h-3.5"/></button>
+                                    <button onClick={handleDeleteDepartment} title="Abteilung löschen" className="text-on-surface-variant hover:text-primary transition-colors"><Icons.Trash2 className="w-3.5 h-3.5"/></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <nav className="flex-1 px-4 space-y-1">
+                            {[
+                                { id: 'tasks', icon: Icons.ListTodo, label: 'Aufgaben' },
+                                { id: 'assignments', icon: Icons.UserCheck, label: 'Zuweisung' },
+                                { id: 'matrix', icon: Icons.Database, label: 'Matrix' },
+                                { id: 'job', icon: Icons.FileText, label: 'Soll-Profil' },
+                                { id: 'radar', icon: Icons.Filter, label: 'Radar' }
+                            ].map(nav => (
+                                <button 
+                                    key={nav.id}
+                                    onClick={() => setActiveTab(nav.id)}
+                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                                        activeTab === nav.id 
+                                        ? 'bg-primary-fixed text-primary shadow-sm' 
+                                        : 'text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface'
+                                    }`}
+                                >
+                                    <nav.icon className={`w-5 h-5 ${activeTab === nav.id ? 'text-primary' : ''}`} />
+                                    {nav.label}
+                                </button>
+                            ))}
+                        </nav>
+                    </aside>
+
+                    {/* MAIN CONTENT AREA */}
+                    <div className="flex-1 flex flex-col h-full overflow-hidden relative print-container">
+                        <header className="h-20 bg-surface/90 backdrop-blur-md px-8 flex items-center justify-between border-b border-surface-container-high/50 z-10 no-print shrink-0">
+                            <div className="flex-1 max-w-xl relative">
+                                <Icons.Search className="w-5 h-5 text-on-surface-variant absolute left-4 top-1/2 -translate-y-1/2" />
+                                <input 
+                                    type="text" 
+                                    ref={searchInputRef}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Aufgaben, Mitarbeiter oder Skills suchen..." 
+                                    className="w-full bg-surface-container-low border border-surface-container-high/50 rounded-full py-2.5 pl-12 pr-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                />
+                            </div>
+                            <div className="flex items-center gap-6 ml-8">
+                                <div className="flex items-center gap-4 text-sm font-semibold text-on-surface-variant">
+                                    <button onClick={handleImportClick} className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary pb-0.5 relative">
+                                        Import <input type="file" ref={fileInputRef} className="hidden" onChange={handleFileChange} accept=".json"/>
+                                    </button>
+                                    <button onClick={handleExport} className="hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary pb-0.5">Export</button>
+                                </div>
+                            </div>
+                        </header>
+
+                        <main className="flex-1 overflow-y-auto print-container relative">
+                            
+                            {/* TAB 1: TASKS */}
+                            {activeTab === 'tasks' && (
+                                <div className="flex h-full tab-transition">
+                                    <div className="w-[340px] border-r border-surface-container-high/50 flex flex-col bg-surface shrink-0">
+                                        <div className="p-6 pb-4 flex justify-between items-start">
+                                            <div>
+                                                <h2 className="font-manrope font-bold text-xl text-on-surface">Aufgaben-Katalog</h2>
+                                                <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-1 truncate">ABTEILUNG: {currentDept.name}</p>
+                                            </div>
+                                            <button onClick={()=>handleAddTask("Allgemein")} className="bg-primary-fixed text-primary p-2 rounded-lg hover:bg-primary hover:text-white transition-colors" title="Neue Aufgabe"><Icons.Plus className="w-5 h-5"/></button>
+                                        </div>
+                                        <div className="flex-1 overflow-y-auto px-4 pb-6 space-y-6">
+                                            {Object.entries(tasksByCategory).map(([cat, tasks]) => (
+                                                <div key={cat}>
+                                                    <div 
+                                                        className="flex justify-between items-center px-3 mb-2 cursor-pointer group/header hover:bg-surface-container-high/30 rounded py-1.5 transition-colors"
+                                                        onClick={() => setExpandedTaskCats(prev => ({...prev, [cat]: !prev[cat]}))}
+                                                    >
+                                                        <h3 className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest flex items-center gap-2">
+                                                            {expandedTaskCats[cat] ? <Icons.ChevronDown className="w-3.5 h-3.5"/> : <Icons.ChevronRight className="w-3.5 h-3.5"/>}
+                                                            {cat}
+                                                        </h3>
+                                                        <span className="flex gap-2 items-center">
+                                                            <button onClick={(e)=>{e.stopPropagation(); handleAddTask(cat); setExpandedTaskCats(p=>({...p, [cat]:true}));}} className="opacity-0 group-hover/header:opacity-100 text-on-surface-variant hover:text-primary transition-opacity"><Icons.Plus className="w-3.5 h-3.5"/></button>
+                                                            <span className="text-[10px] bg-surface-container-high text-on-surface-variant px-1.5 py-0.5 rounded font-bold">{tasks.length}</span>
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    {expandedTaskCats[cat] && (
+                                                        <div className="space-y-1.5 px-2">
+                                                            {tasks.map(task => (
+                                                                <div 
+                                                                    key={task.id} 
+                                                                    onClick={()=>setSelectedTaskId(task.id)} 
+                                                                    className={`p-3.5 rounded-xl cursor-pointer transition-all group relative ${selectedTaskId === task.id ? 'bg-surface-container-lowest shadow-ambient border border-primary/20' : 'hover:bg-surface-container-lowest border border-transparent hover:shadow-sm'}`}
+                                                                >
+                                                                    <div className="flex items-start gap-3">
+                                                                        <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${selectedTaskId === task.id ? 'bg-primary' : 'bg-transparent'}`}></div>
+                                                                        <div>
+                                                                            <h4 className={`font-bold text-sm mb-1 pr-6 line-clamp-2 ${selectedTaskId === task.id ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface'}`}>{task.name}</h4>
+                                                                            <span className="text-[10px] text-on-surface-variant">{task.requiredSkills.length > 2 ? 'Priorität: Hoch' : 'Priorität: Normal'}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <button onClick={(e)=>{e.stopPropagation(); handleDeleteTask(task.id);}} className="absolute top-3.5 right-3 opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-primary transition-opacity bg-white/80 p-0.5 rounded">
+                                                                        <Icons.Trash2 className="w-3.5 h-3.5"/>
+                                                                    </button>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                            {Object.keys(tasksByCategory).length === 0 && <p className="text-sm text-on-surface-variant italic px-2">Keine Aufgaben gefunden.</p>}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex-1 bg-surface-container-lowest flex flex-col relative overflow-hidden border-r border-surface-container-high/50">
+                                        {activeTaskObj ? (
+                                            <div className="flex flex-col h-full">
+                                                <div className="p-8 md:px-12 md:pt-12 md:pb-8 border-b border-surface-container-high/30">
+                                                    <div className="flex justify-between items-start mb-4">
+                                                        <div className="flex-1 mr-8">
+                                                            <div className="flex items-center gap-2 mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                                                <input className="bg-primary-fixed text-primary px-2 py-0.5 rounded w-auto max-w-[150px] outline-none border border-transparent focus:border-primary/30" value={activeTaskObj.category} onChange={e=>handleUpdateTaskField(activeTaskObj.id, 'category', e.target.value)} title="Kategorie ändern" />
+                                                                <span className="text-on-surface-variant flex items-center gap-1"><span className="w-1 h-1 bg-on-surface-variant rounded-full inline-block"></span> Aktive Aufgabe</span>
+                                                            </div>
+                                                            <input 
+                                                                className="text-3xl lg:text-4xl font-manrope font-extrabold text-on-surface mb-3 tracking-tight w-full bg-transparent border-b-2 border-transparent hover:border-surface-container-high focus:border-primary outline-none transition-colors" 
+                                                                value={activeTaskObj.name} 
+                                                                onChange={e=>handleUpdateTaskField(activeTaskObj.id, 'name', e.target.value)}
+                                                                placeholder="Aufgaben-Titel..."
+                                                            />
+                                                            <AutoTextarea 
+                                                                className="text-on-surface-variant text-sm max-w-2xl leading-relaxed w-full bg-transparent border border-transparent hover:border-surface-container-high focus:border-primary outline-none rounded p-2 -ml-2 transition-colors" 
+                                                                value={activeTaskObj.desc || ''} 
+                                                                onChange={e=>handleUpdateTaskField(activeTaskObj.id, 'desc', e.target.value)}
+                                                                placeholder="Detaillierte Beschreibung hier hinzufügen..."
+                                                                rows={2}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="flex-1 overflow-y-auto p-8 md:p-12 bg-surface/50">
+                                                    <div className="flex justify-between items-center mb-8">
+                                                        <h3 className="font-manrope font-bold text-lg text-on-surface">Benötigte Skills konfigurieren</h3>
+                                                        <div className="flex items-center gap-4 text-xs font-semibold text-on-surface-variant">
+                                                            <span className="text-primary">{activeTaskObj.requiredSkills.length} Skills ausgewählt</span>
+                                                            <div className="w-px h-4 bg-surface-container-high"></div>
+                                                            <label className="flex items-center gap-2 cursor-pointer hover:text-on-surface transition-colors">
+                                                                <input type="checkbox" className="rounded text-primary focus:ring-primary border-gray-300" checked={showOnlyRequiredSkills} onChange={(e) => setShowOnlyRequiredSkills(e.target.checked)} />
+                                                                Nur benötigte anzeigen
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="grid grid-cols-1 2xl:grid-cols-2 gap-5 pb-12">
+                                                        {allSkillsFlat
+                                                            .filter(skill => showOnlyRequiredSkills ? activeTaskObj.requiredSkills.includes(skill.id) : true)
+                                                            .map(skill => {
+                                                            const isSelected = activeTaskObj.requiredSkills.includes(skill.id);
+                                                            return (
+                                                                <div 
+                                                                    key={skill.id}
+                                                                    onClick={() => handleToggleTaskSkill(activeTaskObj.id, skill.id)}
+                                                                    className={`p-5 rounded-2xl border transition-all cursor-pointer flex gap-4 group ${isSelected ? 'border-primary bg-surface-container-lowest shadow-ambient' : 'border-transparent bg-surface-container-low hover:bg-surface-container-lowest hover:shadow-sm hover:border-surface-container-high'}`}
+                                                                >
+                                                                    <div className="pt-0.5">
+                                                                        <CustomCheckbox checked={isSelected} onChange={() => {}} />
+                                                                    </div>
+                                                                    <div className="flex-1">
+                                                                        <div className="flex justify-between items-start mb-1.5">
+                                                                            <h4 className={`font-bold text-sm pr-4 ${isSelected ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface'}`}>{skill.name}</h4>
+                                                                            <span className={`text-[9px] font-bold px-2 py-1 rounded uppercase tracking-widest shrink-0 ${isSelected ? 'bg-primary-fixed text-primary' : 'bg-surface-container-high text-on-surface-variant'}`}>Level {skill.level || 3}</span>
+                                                                        </div>
+                                                                        {skill.desc && <p className={`text-xs leading-relaxed line-clamp-2 mb-3 ${isSelected ? 'text-on-surface-variant' : 'text-on-surface-variant/70'}`}>{skill.desc}</p>}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="flex h-full items-center justify-center text-on-surface-variant flex-col p-12 text-center">
+                                                <Icons.ListTodo className="w-12 h-12 mb-4 opacity-50"/>
+                                                <h3 className="font-manrope font-bold text-xl mb-2">Aufgabe auswählen</h3>
+                                                <p className="text-sm">Wählen Sie eine Aufgabe links aus, um ihr benötigte Skills zuzuweisen.</p>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="w-[300px] xl:w-[340px] bg-surface flex flex-col shrink-0 no-print">
+                                        <div className="p-8 pb-6 border-b border-surface-container-high/30">
+                                            <h3 className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">AUFGABEN-ZUSAMMENFASSUNG</h3>
+                                            <h2 className="font-manrope font-bold text-xl text-on-surface">Metriken</h2>
+                                        </div>
+                                        
+                                        {activeTaskObj ? (() => {
+                                            const reqCount = activeTaskObj.requiredSkills.length;
+                                            
+                                            let sumLevels = 0;
+                                            activeTaskObj.requiredSkills.forEach(sId => {
+                                                const s = allSkillsFlat.find(x => x.id === sId);
+                                                if(s) sumLevels += (s.level || 3);
+                                            });
+                                            const complexityRaw = reqCount > 0 ? (sumLevels / (reqCount * 5)).toFixed(2) : "0.00";
+                                            
+                                            let compLevel = "Niedrig";
+                                            if(complexityRaw > 0.4) compLevel = "Mittel";
+                                            if(complexityRaw > 0.7) compLevel = "Hoch";
+
+                                            const categoryCounts = {};
+                                            activeTaskObj.requiredSkills.forEach(sId => {
+                                                for(const [cat, skills] of Object.entries(currentDept.skills)) {
+                                                    if(skills.some(s => s.id === sId)) {
+                                                        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+                                                        break;
+                                                    }
+                                                }
+                                            });
+                                            
+                                            const totalCat = Object.values(categoryCounts).reduce((a,b)=>a+b, 0);
+
+                                            const qualifiedMembers = currentDept.members.filter(m => (currentDept.memberTasks[m.id] || []).includes(activeTaskObj.id));
+
+                                            return (
+                                            <div className="p-8 space-y-10 flex-1 overflow-y-auto">
+                                                <div>
+                                                    <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-3">KOMPLEXITÄTSINDEX</p>
+                                                    <div className="flex items-baseline gap-2 mb-3">
+                                                        <span className="text-5xl font-manrope font-extrabold text-primary leading-none">{complexityRaw}</span>
+                                                        <span className="text-sm font-bold text-on-surface-variant uppercase">/ {compLevel}</span>
+                                                    </div>
+                                                    <div className="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+                                                        <div className="h-full bg-primary transition-all duration-500" style={{width: `${complexityRaw * 100}%`}}></div>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-5">SKILL-VERTEILUNG</p>
+                                                    <div className="space-y-3.5 text-xs font-semibold text-on-surface-variant">
+                                                        {Object.keys(currentDept.skills).map(cat => {
+                                                            const count = categoryCounts[cat] || 0;
+                                                            if (count === 0 && totalCat > 0) return null;
+                                                            const pct = totalCat ? Math.round((count/totalCat)*100) : 0;
+                                                            return (
+                                                                <div key={cat} className="flex justify-between items-center">
+                                                                    <span className="text-on-surface truncate pr-2">{cat}</span>
+                                                                    <span className="font-bold">{pct}%</span>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">QUALIFIZIERTE ROLLEN</p>
+                                                    <div className="flex items-center">
+                                                        {qualifiedMembers.slice(0,4).map((m, i) => (
+                                                            <div key={m.id} className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xs border-2 border-surface ${i > 0 ? '-ml-3' : ''}`} style={{backgroundColor: m.color, zIndex: 10-i}}>
+                                                                {m.short}
+                                                            </div>
+                                                        ))}
+                                                        {qualifiedMembers.length > 4 && (
+                                                            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-on-surface text-white font-bold text-xs border-2 border-surface -ml-3 z-0">
+                                                                +{qualifiedMembers.length - 4}
+                                                            </div>
+                                                        )}
+                                                        {qualifiedMembers.length === 0 && (
+                                                            <span className="text-xs text-on-surface-variant italic">Niemand zugewiesen.</span>
+                                                        )}
+                                                    </div>
+                                                    <p className="text-[10px] text-on-surface-variant mt-3 leading-relaxed">Derzeit für diese Aufgabe konfigurierte Mitarbeiter.</p>
+                                                </div>
+                                            </div>
+                                            );
+                                        })() : (
+                                            <div className="p-8 text-center text-on-surface-variant italic text-sm mt-10">Keine Daten verfügbar.</div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* TAB 2: ASSIGNMENT */}
+                            {activeTab === 'assignments' && (
+                                <div className="flex h-full tab-transition">
+                                    <div className="w-[320px] border-r border-surface-container-high/50 flex flex-col bg-surface shrink-0">
+                                        <div className="p-6 pb-4">
+                                            <h2 className="font-manrope font-bold text-2xl text-on-surface">Personal</h2>
+                                            <p className="text-xs text-on-surface-variant mt-1 font-medium">{filteredMembers.length} Teammitglieder gefunden</p>
+                                        </div>
+                                        <div className="flex-1 overflow-y-auto px-5 pb-6 space-y-3">
+                                            {filteredMembers.map(m => (
+                                                <div 
+                                                    key={m.id} 
+                                                    onClick={()=>setSelectedAssignee(m.id)} 
+                                                    className={`p-4 rounded-2xl cursor-pointer transition-all flex items-center justify-between group border ${selectedAssignee === m.id ? 'bg-surface-container-lowest shadow-ambient border-primary/50' : 'bg-surface-container-lowest border-transparent hover:border-surface-container-high hover:shadow-sm'}`}
+                                                >
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-sm" style={{backgroundColor: m.color}}>{m.short}</div>
+                                                        <div>
+                                                            <h4 className={`font-bold text-sm ${selectedAssignee === m.id ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface'}`}>{m.name}</h4>
+                                                            <p className="text-[11px] text-on-surface-variant font-medium mt-0.5">{m.title || 'Mitarbeiter'}</p>
+                                                        </div>
+                                                    </div>
+                                                    {selectedAssignee === m.id && <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center"><Icons.Check className="w-3 h-3 text-white"/></div>}
+                                                </div>
+                                            ))}
+                                            {filteredMembers.length === 0 && <p className="text-sm text-on-surface-variant italic px-2">Keine Mitarbeiter gefunden.</p>}
+                                        </div>
+                                        <div className="p-6 border-t border-surface-container-high/50">
+                                            <button onClick={()=>setShowTeamManager(true)} className="w-full bg-surface-container-lowest border border-surface-container-high text-on-surface font-bold text-sm py-2.5 rounded-xl hover:text-primary hover:border-primary/30 transition-colors shadow-sm">
+                                                Team verwalten
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex-1 bg-surface-container-lowest flex flex-col relative overflow-hidden">
+                                        {selectedAssignee ? (() => {
+                                            const member = currentDept.members.find(m => m.id === selectedAssignee);
+                                            const assignedCount = (currentDept.memberTasks[selectedAssignee] || []).length;
+                                            return (
+                                                <div className="flex flex-col h-full">
+                                                    <div className="p-8 md:p-12 border-b border-surface-container-high/30 flex justify-between items-end">
+                                                        <div>
+                                                            <p className="text-[10px] font-bold uppercase tracking-widest text-primary mb-2">AUFGABEN-ZUWEISUNG</p>
+                                                            <h2 className="text-3xl font-manrope font-extrabold text-on-surface">Aktive Matrix: {member.name}</h2>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="flex-1 overflow-y-auto p-8 md:p-12 bg-surface">
+                                                        {Object.entries(tasksByCategory).map(([cat, tasks], catIndex) => (
+                                                            <div key={cat} className="mb-12">
+                                                                <div className="flex justify-between items-center mb-6">
+                                                                    <h3 className="font-manrope font-bold text-xl text-on-surface">{cat}</h3>
+                                                                    <span className="text-[10px] font-bold text-primary bg-primary-fixed px-2 py-1 rounded uppercase tracking-widest">{tasks.length} AUFGABEN</span>
+                                                                </div>
+                                                                <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+                                                                    
+                                                                    {catIndex === 0 && (
+                                                                        <div className="p-8 rounded-2xl bg-on-surface text-white shadow-ambient flex flex-col justify-center relative overflow-hidden">
+                                                                            <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-1">MEMBER SNAPSHOT</p>
+                                                                            <h4 className="font-manrope font-bold text-xl mb-6">{member.name.split(' ')[0]}'s Kapazität</h4>
+                                                                            <div className="flex items-end gap-2 mb-2">
+                                                                                <span className="text-5xl font-extrabold">{Math.min(100, Math.round((assignedCount / 5) * 100))}%</span>
+                                                                                <span className="text-white/60 text-xs mb-1 font-medium">Auslastung</span>
+                                                                            </div>
+                                                                            <div className="h-1.5 w-full bg-white/20 rounded-full overflow-hidden mt-1">
+                                                                                <div className="h-full bg-primary transition-all duration-500" style={{width: `${Math.min(100, Math.round((assignedCount / 5) * 100))}%`}}></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {tasks.map(t => {
+                                                                        const isAssigned = (currentDept.memberTasks[selectedAssignee] || []).includes(t.id);
+                                                                        const IconCmp = getTaskIcon(t.category);
+                                                                        return (
+                                                                            <div key={t.id} onClick={()=>handleToggleMemberTask(selectedAssignee, t.id)} className={`relative p-6 rounded-2xl cursor-pointer transition-all border group ${isAssigned ? 'bg-surface-container-lowest border-primary/30 shadow-ambient' : 'bg-surface-container-lowest border-surface-container-high hover:border-surface-container-high/80 hover:shadow-sm'}`}>
+                                                                                <div className="flex justify-between items-start mb-4">
+                                                                                    <div className={`text-xl ${isAssigned ? 'text-primary' : 'text-on-surface-variant group-hover:text-on-surface'}`}>
+                                                                                        {IconCmp}
+                                                                                    </div>
+                                                                                    <div onClick={e => e.stopPropagation()}>
+                                                                                        <CustomCheckbox checked={isAssigned} onChange={() => handleToggleMemberTask(selectedAssignee, t.id)} color={member.color} />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <h4 className={`font-bold text-base mb-2 pr-8 ${isAssigned ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface'}`}>{t.name}</h4>
+                                                                                <p className="text-xs text-on-surface-variant leading-relaxed line-clamp-3 mb-6 min-h-[3rem]">{t.desc || 'Keine detaillierte Beschreibung hinterlegt.'}</p>
+                                                                            </div>
+                                                                        )
+                                                                    })}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )
+                                        })() : (
+                                            <div className="flex h-full items-center justify-center text-on-surface-variant flex-col p-12 text-center">
+                                                <Icons.Users className="w-12 h-12 mb-4 opacity-50"/>
+                                                <h3 className="font-manrope font-bold text-xl mb-2">Personal auswählen</h3>
+                                                <p className="text-sm">Bitte wählen Sie links ein Team-Mitglied aus.</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* TAB 3: MATRIX */}
+                            {activeTab === 'matrix' && (
+                                <div className="p-8 md:p-12 w-full tab-transition">
+                                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
+                                        <div>
+                                            <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">LEISTUNGSDATEN</p>
+                                            <div className="flex items-center gap-6 mb-3">
+                                                <h2 className="font-manrope font-extrabold text-3xl md:text-4xl text-on-surface">Globale Skill-Matrix</h2>
+                                                <div className="flex bg-surface-container-high/50 p-1 rounded-lg">
+                                                    <button
+                                                        onClick={() => setMatrixViewMode('categories')}
+                                                        className={`px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${matrixViewMode === 'categories' ? 'bg-white text-primary shadow-sm' : 'text-on-surface-variant hover:text-on-surface'}`}
+                                                    >
+                                                        Nach Kategorien
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setMatrixViewMode('tasks')}
+                                                        className={`px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${matrixViewMode === 'tasks' ? 'bg-white text-primary shadow-sm' : 'text-on-surface-variant hover:text-on-surface'}`}
+                                                    >
+                                                        Nach Aufgaben
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p className="text-on-surface-variant text-sm max-w-2xl">Abbildung des menschlichen Potenzials über fachliche und technische Domänen hinweg. Daten aktualisiert: {lastImportTime.toLocaleString('de-CH', {dateStyle:'medium', timeStyle:'short'})}.</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-surface-container-lowest rounded-2xl shadow-ambient overflow-hidden mb-12 border border-surface-container-high/50">
+                                        <div className="overflow-x-auto pb-10">
+                                            <table className="w-full text-left border-collapse min-w-[800px]">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="px-8 py-6 w-[350px] border-b border-surface-container-high/50">
+                                                            <div className="flex items-center justify-between">
+                                                                <div className="flex items-center gap-2 text-[10px] font-bold text-primary uppercase tracking-widest">
+                                                                    {matrixViewMode === 'categories' ? 'Skill Kategorien' : 'Aufgaben & Benötigte Skills'}
+                                                                </div>
+                                                                {matrixViewMode === 'categories' && (
+                                                                    <button onClick={handleAddCategory} className="text-primary hover:bg-primary-fixed p-1.5 rounded transition-colors flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest" title="Neue Kategorie hinzufügen">
+                                                                        <Icons.Plus className="w-3.5 h-3.5"/>
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </th>
+                                                        {currentDept.members.map(m => (
+                                                            <th key={m.id} className="px-2 py-6 text-center border-b border-surface-container-high/50 min-w-[100px]">
+                                                                <div className="flex flex-col items-center gap-3">
+                                                                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md" style={{backgroundColor: m.color}}>{m.short}</div>
+                                                                    <span className="text-xs font-semibold text-on-surface truncate w-full px-2" title={m.name}>{m.name}</span>
+                                                                </div>
+                                                            </th>
+                                                        ))}
+                                                    </tr>
+                                                </thead>
+                                                {matrixViewMode === 'categories' && Object.entries(currentDept.skills).map(([cat, skills], catIndex) => {
+                                                    const catSkillsFilter = skills.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
+                                                    if (catSkillsFilter.length === 0 && searchQuery !== '') return null;
+                                                    
+                                                    return (
+                                                    <tbody 
+                                                        key={cat}
+                                                        onDragOver={(e) => { 
+                                                            e.preventDefault(); 
+                                                            if (draggedSkill && draggedSkill.category !== cat) setDragOverCat(cat); 
+                                                        }}
+                                                        onDragLeave={(e) => { 
+                                                            e.preventDefault(); 
+                                                            setDragOverCat(null); 
+                                                        }}
+                                                        onDrop={(e) => {
+                                                            e.preventDefault();
+                                                            setDragOverCat(null);
+                                                            if (!draggedSkill) return;
+                                                            if (draggedSkill.category === cat) return;
+
+                                                            const sourceCatName = draggedSkill.category;
+                                                            const targetCatName = cat;
+                                                            
+                                                            const sourceSkills = [...currentDept.skills[sourceCatName]];
+                                                            const targetSkills = [...currentDept.skills[targetCatName]];
+                                                            
+                                                            const skillIndex = sourceSkills.findIndex(s => s.id === draggedSkill.id);
+                                                            if (skillIndex > -1) {
+                                                                const [movedSkill] = sourceSkills.splice(skillIndex, 1);
+                                                                targetSkills.push(movedSkill);
+                                                                
+                                                                updateCurrentDept({ 
+                                                                    skills: {
+                                                                        ...currentDept.skills,
+                                                                        [sourceCatName]: sourceSkills,
+                                                                        [targetCatName]: targetSkills
+                                                                    }
+                                                                });
+                                                            }
+                                                        }}
+                                                        className={`transition-colors ${dragOverCat === cat ? 'bg-primary-fixed/30 shadow-[inset_0_0_0_2px_#D30018]' : ''}`}
+                                                    >
+                                                        <tr>
+                                                            <td colSpan={currentDept.members.length + 1} className="px-8 py-4 bg-surface-container-lowest border-y border-surface-container-high/50 cursor-pointer group/cat hover:bg-surface-container-low transition-colors" onClick={() => setExpandedCats(prev => ({...prev, [cat]: !prev[cat]}))}>
+                                                                <div className="flex justify-between items-center">
+                                                                    <div className="flex items-center gap-3 text-xs font-bold text-on-surface uppercase tracking-widest">
+                                                                        {expandedCats[cat] ? <Icons.ChevronDown className="w-4 h-4 text-primary"/> : <Icons.ChevronRight className="w-4 h-4 text-on-surface-variant"/>}
+                                                                        {editingCatName === cat ? (
+                                                                            <input autoFocus className="bg-white px-2 py-1 outline-none border border-primary rounded text-on-surface" value={editCatNameVal} onChange={e=>setEditCatNameVal(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')handleRenameCategory(cat, editCatNameVal); if(e.key==='Escape')setEditingCatName(null);}} onBlur={()=>handleRenameCategory(cat, editCatNameVal)} onClick={e=>e.stopPropagation()} />
+                                                                        ) : (
+                                                                            <span>{cat}</span>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="flex items-center opacity-0 group-hover/cat:opacity-100 transition-opacity">
+                                                                        <button onClick={(e)=>{e.stopPropagation(); setEditingCatName(cat); setEditCatNameVal(cat);}} className="text-on-surface-variant hover:text-primary p-1 mx-1" title="Kategorie umbenennen"><Icons.Edit2 className="w-3.5 h-3.5"/></button>
+                                                                        <button onClick={(e)=>{e.stopPropagation(); handleDeleteCategory(cat);}} className="text-on-surface-variant hover:text-primary p-1 mx-1 mr-4" title="Kategorie löschen"><Icons.Trash2 className="w-3.5 h-3.5"/></button>
+                                                                        <button onClick={(e)=>{e.stopPropagation(); handleAddSkill(cat); setExpandedCats(p=>({...p, [cat]:true}));}} className="text-xs font-bold text-primary flex items-center gap-1 bg-primary/10 px-3 py-1.5 rounded hover:bg-primary hover:text-white transition-colors">
+                                                                            <Icons.Plus className="w-3.5 h-3.5"/> Neuer Skill
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {expandedCats[cat] && catSkillsFilter.map((skill, sIndex) => (
+                                                            <tr 
+                                                                key={skill.id} 
+                                                                draggable
+                                                                onDragStart={(e) => {
+                                                                    setDraggedSkill({ id: skill.id, category: cat });
+                                                                    e.dataTransfer.effectAllowed = 'move';
+                                                                }}
+                                                                onDragEnd={() => {
+                                                                    setDraggedSkill(null);
+                                                                    setDragOverCat(null);
+                                                                }}
+                                                                className={`group hover:bg-surface-container-low/30 transition-colors ${draggedSkill?.id === skill.id ? 'opacity-40' : ''}`}
+                                                            >
+                                                                <td className={`px-8 py-4 text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors border-r border-surface-container-high/30 ${sIndex !== catSkillsFilter.length-1 ? 'border-b border-surface-container-high/30' : ''}`}>
+                                                                    <div className="pl-6 flex justify-between items-center group/skillrow">
+                                                                        <div className="flex items-center gap-3 flex-1 min-w-0 pr-4">
+                                                                            <div className="cursor-grab active:cursor-grabbing text-surface-container-high group-hover/skillrow:text-on-surface-variant/50 hover:!text-on-surface-variant transition-colors shrink-0" title="Skill verschieben">
+                                                                                <Icons.GripVertical className="w-4 h-4" />
+                                                                            </div>
+                                                                            {editingSkillId === skill.id ? (
+                                                                                <input autoFocus className="bg-transparent border-b border-primary w-full outline-none text-on-surface font-bold" value={editNameVal} onChange={e=>setEditNameVal(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')handleRenameSkill(cat, skill.id, editNameVal); if(e.key==='Escape')setEditingSkillId(null);}} onBlur={()=>handleRenameSkill(cat, skill.id, editNameVal)} />
+                                                                            ) : (
+                                                                                <span className="text-on-surface truncate">{skill.name}</span>
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="opacity-0 group-hover:opacity-100 flex gap-2 transition-opacity shrink-0">
+                                                                            <button onClick={()=>{setEditingSkillId(skill.id);setEditNameVal(skill.name)}} className="text-on-surface-variant hover:text-primary"><Icons.Edit2 className="w-3.5 h-3.5"/></button>
+                                                                            <button onClick={()=>handleDeleteSkill(cat, skill.id)} className="text-on-surface-variant hover:text-primary"><Icons.Trash2 className="w-3.5 h-3.5"/></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                {currentDept.members.map(m => {
+                                                                    const { score, isDerived, derivedScore } = getEffectiveScore(currentDept, m.id, skill.id, skill.scores);
+                                                                    return (
+                                                                        <td key={m.id} className={`px-2 py-4 text-center ${sIndex !== catSkillsFilter.length-1 ? 'border-b border-surface-container-high/30' : ''}`}>
+                                                                            <MatrixDot level={score} isDerived={isDerived} derivedScore={derivedScore} isEditable={true} onClick={()=>handleScoreClick(cat, skill.id, m.id, score, derivedScore)} />
+                                                                        </td>
+                                                                    )
+                                                                })}
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                    )
+                                                })}
+                                                {matrixViewMode === 'tasks' && currentDept.tasks.map(task => {
+                                                    if (searchQuery && !task.name.toLowerCase().includes(searchQuery.toLowerCase()) && !task.category.toLowerCase().includes(searchQuery.toLowerCase())) return null;
+                                                    const isExpanded = expandedMatrixTasks[task.id];
+                                                    
+                                                    return (
+                                                        <tbody key={task.id}>
+                                                            <tr className="bg-surface-container-lowest border-y border-surface-container-high/50 cursor-pointer hover:bg-surface-container-low transition-colors group/taskrow" onClick={() => setExpandedMatrixTasks(p => ({...p, [task.id]: !p[task.id]}))}>
+                                                                <td className="px-8 py-4">
+                                                                    <div className="flex justify-between items-center">
+                                                                        <div className="flex items-center gap-3 text-sm font-bold text-on-surface">
+                                                                            {isExpanded ? <Icons.ChevronDown className="w-4 h-4 text-primary"/> : <Icons.ChevronRight className="w-4 h-4 text-on-surface-variant"/>}
+                                                                            <span>{task.name}</span>
+                                                                            <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant uppercase tracking-widest">{task.category}</span>
+                                                                        </div>
+                                                                        <div className="text-[10px] font-bold text-on-surface-variant bg-surface-container-low px-2 py-1 rounded opacity-0 group-hover/taskrow:opacity-100 transition-opacity">
+                                                                            {task.requiredSkills.length} SKILLS
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                {currentDept.members.map(m => {
+                                                                    const isAssigned = (currentDept.memberTasks[m.id] || []).includes(task.id);
+                                                                    return (
+                                                                        <td key={m.id} className="px-2 py-4 text-center border-l border-surface-container-high/30" onClick={(e) => { e.stopPropagation(); handleToggleMemberTask(m.id, task.id); }}>
+                                                                            <div className="flex justify-center">
+                                                                                <CustomCheckbox checked={isAssigned} onChange={() => handleToggleMemberTask(m.id, task.id)} color={m.color} />
+                                                                            </div>
+                                                                        </td>
+                                                                    )
+                                                                })}
+                                                            </tr>
+                                                            {isExpanded && task.requiredSkills.map((sId, sIndex) => {
+                                                                const skill = allSkillsFlat.find(s => s.id === sId);
+                                                                if (!skill) return null;
+                                                                let catName = "";
+                                                                for (const [c, skills] of Object.entries(currentDept.skills)) {
+                                                                    if (skills.some(s => s.id === skill.id)) { catName = c; break; }
+                                                                }
+                                                                return (
+                                                                    <tr key={skill.id} className="group hover:bg-surface-container-low/30 transition-colors bg-surface/30">
+                                                                        <td className={`px-8 py-3 text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors border-r border-surface-container-high/30 ${sIndex !== task.requiredSkills.length-1 ? 'border-b border-surface-container-high/30' : ''}`}>
+                                                                            <div className="pl-8 flex justify-between items-center">
+                                                                                <div className="flex items-center gap-3 flex-1 min-w-0 pr-4">
+                                                                                    <span className="text-on-surface truncate">{skill.name}</span>
+                                                                                    <span className="text-[9px] font-bold text-on-surface-variant/50 uppercase tracking-widest border border-surface-container-high/60 bg-white px-1.5 py-0.5 rounded">{catName}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        {currentDept.members.map(m => {
+                                                                            const { score, isDerived, derivedScore } = getEffectiveScore(currentDept, m.id, skill.id, skill.scores);
+                                                                            return (
+                                                                                <td key={m.id} className={`px-2 py-3 text-center border-l border-surface-container-high/30 ${sIndex !== task.requiredSkills.length-1 ? 'border-b border-surface-container-high/30' : ''}`}>
+                                                                                    <MatrixDot level={score} isDerived={isDerived} derivedScore={derivedScore} isEditable={true} onClick={()=>handleScoreClick(catName, skill.id, m.id, score, derivedScore)} />
+                                                                                </td>
+                                                                            )
+                                                                        })}
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                            {isExpanded && task.requiredSkills.length === 0 && (
+                                                                <tr>
+                                                                    <td className="px-8 py-4 text-xs italic text-on-surface-variant bg-surface/30 border-r border-surface-container-high/30">Keine Skills für diese Aufgabe konfiguriert.</td>
+                                                                    <td colSpan={currentDept.members.length} className="bg-surface/30 border-l border-surface-container-high/30"></td>
+                                                                </tr>
+                                                            )}
+                                                        </tbody>
+                                                    );
+                                                })}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* TAB 4: JOB PROFILE */}
+                            {activeTab === 'job' && (
+                                <div className="flex h-full no-print tab-transition">
+                                    <div className="w-[400px] bg-surface border-r border-surface-container-high/50 flex flex-col shrink-0">
+                                        <div className="p-8 pb-6">
+                                            <h2 className="font-manrope font-bold text-2xl text-on-surface mb-2">Profil konfigurieren</h2>
+                                        </div>
+                                        <div className="flex-1 overflow-y-auto px-8 pb-8">
+                                            <div className="space-y-6">
+                                                <div>
+                                                    <label className="block text-[10px] font-bold text-primary uppercase tracking-widest mb-2">PUBLICATION TITLE</label>
+                                                    <input className="w-full bg-surface-container-lowest border border-surface-container-high/50 rounded-lg px-4 py-3 text-sm font-semibold focus:outline-none focus:border-primary transition-colors" value={currentDept.jobProfile.title || ''} onChange={e=>updateJobProfile('title', e.target.value)} />
+                                                </div>
+                                                
+                                                <div className="pt-4 border-t border-surface-container-high/50">
+                                                    <div className="flex justify-between items-center mb-4">
+                                                        <h3 className="font-bold text-sm text-on-surface">Aufgaben-Katalog</h3>
+                                                        <span className="text-[10px] font-bold bg-primary-fixed text-primary px-2 py-0.5 rounded">{currentDept.tasks.length} Verfügbar</span>
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        {currentDept.tasks.map(t => {
+                                                            const isTarget = (currentDept.targetTasks||[]).includes(t.id);
+                                                            return (
+                                                                <div key={t.id} onClick={()=>handleToggleTargetTask(t.id)} className={`p-4 rounded-xl cursor-pointer transition-all flex gap-4 ${isTarget ? 'bg-primary-fixed shadow-ambient border-l-4 border-primary' : 'bg-surface-container-lowest border border-surface-container-high/30 hover:border-surface-container-high/80'}`}>
+                                                                    <div className="pt-0.5">
+                                                                        <CustomCheckbox checked={isTarget} onChange={() => {}} />
+                                                                    </div>
+                                                                    <div>
+                                                                        <h4 className={`font-semibold text-sm mb-1 ${isTarget ? 'text-on-surface' : 'text-on-surface-variant'}`}>{t.name}</h4>
+                                                                        <div className="flex gap-2">
+                                                                            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${isTarget ? 'bg-white text-on-surface-variant' : 'bg-surface text-on-surface-variant'}`}>{t.category}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex-1 bg-surface-container-high/30 flex flex-col items-center justify-start p-8 overflow-y-auto relative">
+                                        <div 
+                                            id="printable-job-profile" 
+                                            className="bg-white w-[794px] min-h-[1123px] shadow-2xl p-16 relative flex flex-col transition-transform duration-200"
+                                            style={{ transform: `scale(${pdfZoom})`, transformOrigin: 'top center', marginBottom: `${Math.max(0, (pdfZoom - 1) * 1123)}px` }}
+                                        >
+                                            <div className="flex justify-between items-start mb-12">
+                                                <div>
+                                                    <div className="bg-primary text-white font-manrope font-bold text-lg px-4 py-1.5 inline-block mb-6 tracking-wider">{currentDept.name}</div>
+                                                    <input className="text-7xl font-manrope font-extrabold text-on-surface w-[500px] leading-tight editable-field" value={currentDept.jobProfile.title || 'Job Titel'} onChange={e=>updateJobProfile('title', e.target.value)} />
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-12 flex-1">
+                                                <div className="flex-1 space-y-12 pr-4">
+                                                    <div>
+                                                        <h3 className="font-manrope font-bold text-2xl text-primary mb-4"><input className="editable-field w-full text-primary" value={currentDept.jobProfile.introTitle || 'Das ist dein Job'} onChange={e=>updateJobProfile('introTitle', e.target.value)} /></h3>
+                                                        <AutoTextarea className="w-full text-sm leading-relaxed text-on-surface-variant font-medium editable-field" value={currentDept.jobProfile.intro || ''} onChange={e=>updateJobProfile('intro', e.target.value)} rows={5}/>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="w-[300px] bg-[#FDF8F8] border border-primary-fixed p-8 rounded-2xl h-fit">
+                                                    <h3 className="text-xs font-bold text-primary uppercase tracking-widest mb-8 border-b border-primary-fixed pb-3">EXPECTED SKILLS</h3>
+                                                    {activeTargetSkillsData.length > 0 ? (
+                                                        <div className="space-y-8">
+                                                            {coreSkills.length > 0 && (
+                                                                <div>
+                                                                    <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">CORE COMPETENCIES</p>
+                                                                    <div className="space-y-4">
+                                                                        {coreSkills.map(s => (
+                                                                            <div key={s.id}>
+                                                                                <div className="flex justify-between items-center mb-1.5 text-xs font-semibold text-on-surface">
+                                                                                    <span className="truncate pr-2">{s.name}</span>
+                                                                                </div>
+                                                                                <div className="h-1.5 w-full bg-primary-fixed rounded-full overflow-hidden">
+                                                                                    <div className="h-full bg-primary" style={{width: `${(s.level/5)*100}%`}}></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {toolSkills.length > 0 && (
+                                                                <div>
+                                                                    <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-3">DIGITAL TOOLS</p>
+                                                                    <div className="flex flex-wrap gap-2">
+                                                                        {toolSkills.map(s => (
+                                                                            <span key={s.id} className="text-[10px] font-semibold border border-primary/20 bg-white text-on-surface px-2.5 py-1 rounded">
+                                                                                {s.name}
+                                                                            </span>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {softSkills.length > 0 && (
+                                                                <div>
+                                                                    <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-3">SOFT SKILLS</p>
+                                                                    <p className="text-xs text-on-surface-variant italic leading-relaxed">
+                                                                        {softSkills.map(s => s.name).join(', ')}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-xs text-on-surface-variant italic">Bitte wählen Sie Aufgaben im Katalog, um benötigte Skills zu generieren.</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* TAB 5: RADAR */}
+                            {activeTab === 'radar' && (
+                                <div className="p-8 md:p-12 w-full flex flex-col h-full tab-transition">
+                                    <div className="flex justify-between items-end mb-10">
+                                        <div>
+                                            <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">INTELLIGENCE / TEAM DYNAMICS</p>
+                                            <h2 className="text-3xl lg:text-4xl font-manrope font-extrabold text-on-surface mb-2">Kompetenz-Radar</h2>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                                        <div className="lg:col-span-3 space-y-6">
+                                            <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-ambient border border-surface-container-high/50">
+                                                <h3 className="font-manrope font-bold text-lg mb-6 flex items-center gap-3"><Icons.Eye className="w-5 h-5 text-primary"/> Sichtbarkeit</h3>
+                                                <div onClick={()=>setVisibleMembers(p=>({...p, target:!p.target}))} className="flex items-center justify-between p-3 rounded-xl bg-red-50 border border-red-100 cursor-pointer mb-6 transition-colors hover:bg-red-100/50">
+                                                    <span className="font-bold text-on-surface flex items-center gap-3"><div className="w-3.5 h-3.5 bg-primary rounded-full"></div> Soll-Profil</span>
+                                                    <CustomCheckbox checked={visibleMembers.target} onChange={() => setVisibleMembers(p=>({...p, target:!p.target}))} color="#D30018" />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    {currentDept.members.map(m => (
+                                                        <div key={m.id} onClick={()=>setVisibleMembers(p=>({...p, [m.id]:!p[m.id]}))} className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors group">
+                                                            <span className="font-semibold text-sm text-on-surface flex items-center gap-3"><div className="w-3 h-3 rounded-full" style={{backgroundColor: m.color}}></div> {m.name}</span>
+                                                            <CustomCheckbox checked={visibleMembers[m.id]} onChange={() => setVisibleMembers(p=>({...p, [m.id]:!p[m.id]}))} color={m.color} />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="lg:col-span-9 bg-surface-container-lowest rounded-2xl shadow-ambient p-8 md:p-12 flex flex-col border border-surface-container-high/50">
+                                            <div className="flex-1 min-h-[400px] relative">
+                                                <ResponsiveContainer width="100%" height="100%">
+                                                    <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+                                                        <PolarGrid stroke="#E2E4E9" />
+                                                        <PolarAngleAxis dataKey="subject" tick={{fontSize:11, fill:'#6B7280', fontFamily: 'Inter', fontWeight: 700, letterSpacing: '0.05em'}} />
+                                                        <PolarRadiusAxis angle={30} domain={[0, 3]} tickCount={4} stroke="#E2E4E9" />
+                                                        {currentDept.members.map(m => visibleMembers[m.id] && <Radar key={m.id} name={m.name} dataKey={m.id} stroke={m.color} fill="none" strokeWidth={2} strokeDasharray="5 5" />)}
+                                                        {visibleMembers.target && <Radar name="Target Profile (Team Goal)" dataKey="target" stroke={BRAND_COLOR} strokeWidth={3} fill={BRAND_COLOR} fillOpacity={0.05} />}
+                                                        <Legend wrapperStyle={{paddingTop:'40px', fontWeight: 600, fontSize: '12px', fontFamily: 'Inter', color: '#6B7280'}}/>
+                                                        <RechartsTooltip contentStyle={{borderRadius:'12px', border:'none', boxShadow:'0 8px 30px -4px rgba(0, 0, 0, 0.08)'}}/>
+                                                    </RadarChart>
+                                                </ResponsiveContainer>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                        </main>
+                    </div>
+
+                    {showTeamManager && <TeamManager members={currentDept.members} onUpdate={handleUpdateTeam} onClose={()=>setShowTeamManager(false)} />}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<KineticMatrixApp />);
+    </script>
+</body>
+</html>

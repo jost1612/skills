@@ -1,0 +1,243 @@
+generator client {
+  provider = "prisma-client-js"
+  // For production inside docker or diverse platforms
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// NextAuth Authentifizierung
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("USER")
+  canUseAI      Boolean   @default(false)
+  
+  accounts      Account[]
+  sessions      Session[]
+  departments   Department[] // A user can own/create departments
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================
+// Kinetic Matrix App Data
+// ============================================
+
+model Department {
+  id        String   @id @default(cuid())
+  name      String
+  ownerId   String?  // Optional: Wenn ein bestimmter User der Besitzer ist
+  owner     User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+
+  members           Member[]
+  skillCategories   SkillCategory[]
+  tasks             Task[]
+  jobProfile        JobProfile?
+
+  // Relationen für die globale Soll-Profil Auswahl
+  targetTasks          Task[] @relation("TargetTasks")
+  excludedTargetSkills Skill[] @relation("ExcludedTargetSkills")
+
+  snapshots            DepartmentSnapshot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Member {
+  id            String      @id @default(cuid())
+  departmentId  String
+  department    Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  
+  name          String
+  short         String
+  color         String
+  title         String?
+
+  skillScores   SkillScore[]
+  assignedTasks Task[]      @relation("MemberTasks")
+  certificates  Certificate[]
+  trainingGoals TrainingGoal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SkillCategory {
+  id            String      @id @default(cuid())
+  departmentId  String
+  department    Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  
+  name          String
+  skills        Skill[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([departmentId, name])
+}
+
+model Skill {
+  id              String         @id @default(cuid())
+  categoryId      String
+  category        SkillCategory  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  name            String
+  level           Int            @default(3)
+  desc            String?        @db.Text
+
+  scores          SkillScore[]
+  requiredByTasks Task[]         @relation("TaskRequiredSkills")
+
+  excludedFromDepts Department[] @relation("ExcludedTargetSkills")
+  trainingGoals     TrainingGoal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SkillScore {
+  id        String   @id @default(cuid())
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  
+  skillId   String
+  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  score     Int
+  interest  Int      @default(0) // 0: Neutral/Keine Angabe, 1: Unwillig, 2: Möchte lernen, 3: Hoch motiviert
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([memberId, skillId])
+}
+
+model Task {
+  id            String      @id @default(cuid())
+  departmentId  String
+  department    Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  
+  category      String      @default("Allgemein") // z.B. "Betrieb", "Allgemein"
+  name          String
+  desc          String?     @db.Text
+
+  requiredSkills Skill[]     @relation("TaskRequiredSkills")
+  assignedTo     Member[]    @relation("MemberTasks")
+  
+  targetForDepts Department[] @relation("TargetTasks")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JobProfile {
+  id                 String      @id @default(cuid())
+  departmentId       String      @unique
+  department         Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+
+  title              String
+  subtitle           String?
+  introTitle         String?
+  intro              String?     @db.Text
+  tasksTitle         String?
+  requirementsTitle  String?
+  offerTitle         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// Employee Development / Next Level Features
+// ============================================
+
+model Certificate {
+  id          String    @id @default(cuid())
+  memberId    String
+  member      Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  
+  name        String
+  issuer      String?
+  issuedAt    DateTime?
+  expiresAt   DateTime?
+  url         String?   @db.Text
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model TrainingGoal {
+  id          String    @id @default(cuid())
+  memberId    String
+  member      Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  
+  skillId     String
+  skill       Skill     @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  
+  targetLevel Int
+  dueDate     DateTime?
+  status      String    @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model DepartmentSnapshot {
+  id           String     @id @default(cuid())
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  
+  name         String     // e.g. "Q1 2024", "Jahresabschluss 2023"
+  dataJson     String     @db.Text // Serialized state of skills, members, and scores
+
+  createdAt    DateTime   @default(now())
+}
+
