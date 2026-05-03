@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  height: 100dvh;
+  background-color: var(--surface);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  min-height: 0;
+}

@@ -1,0 +1,96 @@
+.emptyState {
+  padding: 3rem;
+  text-align: center;
+  color: var(--on-surface-variant);
+  font-style: italic;
+}
+
+.pageContainer {
+  padding: 2rem 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2.5rem;
+}
+
+.kpi {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 2.25rem;
+  color: var(--on-surface);
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: var(--on-surface-variant);
+  font-size: 1.125rem;
+  margin-top: 0.5rem;
+}
+
+.printBtn {
+  background-color: var(--surface-container-high);
+  color: var(--on-surface);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.printBtn:hover {
+  background-color: var(--primary-fixed);
+  color: var(--primary);
+}
+
+.card {
+  background-color: var(--surface-container-lowest);
+  border-radius: 16px;
+  box-shadow: var(--shadow-ambient);
+  border: 1px solid var(--surface-container-high);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-manrope);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--primary-fixed);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.textContent {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--on-surface);
+}
+
+.list {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list li {
+  line-height: 1.5;
+  color: var(--on-surface);
+}
