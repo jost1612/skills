@@ -1,0 +1,124 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--surface);
+  padding: 1rem;
+}
+
+.card {
+  background-color: var(--surface-container-lowest);
+  border-radius: 16px;
+  box-shadow: var(--shadow-ambient);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logoMark {
+  width: 48px;
+  height: 48px;
+  background-color: var(--primary);
+  border-radius: 12px;
+  margin: 0 auto 1rem;
+  position: relative;
+}
+.logoMark::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-radius: 50%;
+}
+
+.header h1 {
+  font-family: var(--font-manrope);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--on-surface);
+  margin-bottom: 0.25rem;
+}
+
+.header p {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.inputGroup input {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-container-high);
+  background-color: var(--surface-container-low);
+  font-family: inherit;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--surface-container-lowest);
+  box-shadow: 0 0 0 3px var(--primary-fixed);
+}
+
+.button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-family: var(--font-manrope);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.button:hover {
+  background-color: var(--primary-container);
+}
+
+.error {
+  background-color: #FEE2E2;
+  color: #991B1B;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  text-align: center;
+  font-weight: 500;
+}
