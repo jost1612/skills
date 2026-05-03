@@ -1,6 +1,6 @@
 "use client";
 
-import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart as RechartsRadarChart, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart as RechartsRadarChart, ResponsiveContainer, Tooltip } from "recharts";
 import styles from "@/app/dashboard/radar/radar.module.css";
 import React, { useState } from "react";
 import { createDepartmentSnapshot } from "@/app/actions/development";
@@ -126,15 +126,14 @@ export default function RadarClient({ departmentId, data, members, snapshots = [
           <div className={styles.emptyChart}>Keine Skills gefunden für das Radar.</div>
         ) : (
           <ResponsiveContainer width="100%" height={600}>
-            <RechartsRadarChart cx="50%" cy="50%" outerRadius="70%" data={mergedData}>
+            <RechartsRadarChart cx="50%" cy="50%" outerRadius="78%" data={mergedData}>
               <PolarGrid stroke="#e2e4e9" />
               <PolarAngleAxis dataKey="category" tick={{ fill: '#6B7280', fontSize: 11 }} />
               <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#9CA3AF', fontSize: 10 }} />
-              <Tooltip 
+              <Tooltip
                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
               />
-              <Legend wrapperStyle={{ paddingTop: '20px' }}/>
-              
+
               {showTargetProfile && (
                  <Radar
                    name="Soll-Profil"

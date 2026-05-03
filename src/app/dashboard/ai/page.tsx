@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import AIChatClient from "@/components/ai/AIChatClient";
 import { prisma } from "@/lib/prisma";
+import { listAIChats } from "@/app/actions/ai";
 
 export const metadata = {
   title: "KI-Assistent | Kinetic Matrix",
@@ -47,9 +48,11 @@ export default async function AIPage(props: { searchParams: Promise<{ deptId?: s
     );
   }
 
+  const chats = await listAIChats(activeDept.id);
+
   return (
-    <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
-      <AIChatClient key={activeDept.id} deptId={activeDept.id} deptName={activeDept.name} />
+    <div style={{ padding: "2rem", maxWidth: "1400px", margin: "0 auto", display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
+      <AIChatClient key={activeDept.id} deptId={activeDept.id} deptName={activeDept.name} initialChats={chats} />
     </div>
   );
 }

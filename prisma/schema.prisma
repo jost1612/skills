@@ -22,11 +22,12 @@ model User {
   password      String?
   role          String    @default("USER")
   canUseAI      Boolean   @default(false)
-  
+
   accounts      Account[]
   sessions      Session[]
   departments   Department[] // A user can own/create departments
-  
+  aiChats       AIChat[]
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -86,6 +87,7 @@ model Department {
   excludedTargetSkills Skill[] @relation("ExcludedTargetSkills")
 
   snapshots            DepartmentSnapshot[]
+  aiChats              AIChat[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -234,10 +236,44 @@ model DepartmentSnapshot {
   id           String     @id @default(cuid())
   departmentId String
   department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
-  
+
   name         String     // e.g. "Q1 2024", "Jahresabschluss 2023"
   dataJson     String     @db.Text // Serialized state of skills, members, and scores
 
   createdAt    DateTime   @default(now())
+}
+
+// ============================================
+// AI Assistant Chat Persistence
+// ============================================
+
+model AIChat {
+  id           String          @id @default(cuid())
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  departmentId String
+  department   Department      @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+
+  title        String          @default("Neuer Chat")
+  messages     AIChatMessage[]
+
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([userId, departmentId, updatedAt])
+}
+
+model AIChatMessage {
+  id        String   @id @default(cuid())
+  chatId    String
+  chat      AIChat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  role      String   // "user" | "model"
+  content   String   @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([chatId, createdAt])
 }
 
