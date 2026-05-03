@@ -1,0 +1,241 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--on-surface-variant);
+  margin-top: 0.5rem;
+}
+
+.addBtn {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.addBtn:hover {
+  background-color: #2D4EE0; /* slightly darker primary */
+  transform: translateY(-1px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.usersCard {
+  background-color: var(--surface);
+  border: 1px solid var(--surface-container-high);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* User List Table */
+.userList {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.userList th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  color: var(--on-surface-variant);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--surface-container-high);
+  background-color: var(--surface-container-low);
+}
+
+.userList td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--surface-container-high);
+  color: var(--on-surface);
+  font-size: 0.95rem;
+}
+
+.userList tr:last-child td {
+  border-bottom: none;
+}
+
+.userList tr:hover {
+  background-color: var(--surface-container-low);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
+.flexCell {
+  display: flex;
+  align-items: center;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #D30018; /* Threat red */
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionBtn:hover {
+  background-color: rgba(211, 0, 24, 0.1);
+}
+
+.actionBtnDisabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: none !important;
+}
+
+/* Form Sidebar */
+.formCard {
+  background-color: var(--surface);
+  border: 1px solid var(--surface-container-high);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.formTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--on-surface);
+}
+
+.inputGroup {
+  margin-bottom: 1.25rem;
+}
+
+.inputGroup label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--on-surface-variant);
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--surface-container-high);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  background-color: var(--surface-container-low);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--surface);
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.submitBtn {
+  flex: 1;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background-color: #2D4EE0;
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  flex: 1;
+  background-color: transparent;
+  color: var(--on-surface);
+  border: 1px solid var(--surface-container-high);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelBtn:hover {
+  background-color: var(--surface-container-low);
+}
+
+.errorBox {
+  padding: 0.75rem;
+  background-color: rgba(211, 0, 24, 0.1);
+  color: #D30018;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
