@@ -1,0 +1,499 @@
+.container {
+  display: flex;
+  height: calc(100vh - 80px);
+  background-color: var(--surface);
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 380px;
+  background-color: var(--surface-container-lowest);
+  border-right: 1px solid var(--surface-container-high);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
+
+.sidebarTitle {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--on-surface);
+  margin-bottom: 0.25rem;
+}
+
+.sidebarSubtitle {
+  font-size: 0.75rem;
+  color: var(--on-surface-variant);
+  margin-bottom: 1.5rem;
+}
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.memberCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: white;
+  border-radius: 9999px; /* Pill shape like screenshot */
+  border: 1px solid var(--surface-container-high);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.memberCardActive {
+  border-color: var(--primary);
+  background-color: #fffafb;
+  box-shadow: 0 4px 10px rgba(211, 0, 24, 0.1);
+}
+
+.memberAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.75rem;
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.memberName {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--on-surface);
+}
+
+.memberRole {
+  font-size: 0.65rem;
+  color: var(--on-surface-variant);
+}
+
+.activeCheckIcon {
+  position: absolute;
+  right: 0.75rem;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manageTeamBtn {
+  margin-top: auto;
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 0.875rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px -1px rgba(211, 0, 24, 0.2), 0 2px 4px -1px rgba(211, 0, 24, 0.1);
+}
+
+.manageTeamBtn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 12px -1px rgba(211, 0, 24, 0.3);
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 16px;
+  width: 750px;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.modalHeader {
+  padding: 2rem 2.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--surface-container-high);
+}
+
+.modalTitleBox h2 {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--on-surface);
+  margin-bottom: 0.25rem;
+}
+
+.modalTitleBox p {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  color: var(--on-surface);
+}
+
+.modalBody {
+  padding: 1.5rem 2.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+/* Modal Row */
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #fafafa;
+  border: 1px solid var(--surface-container-high);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+
+.editRowDeleted {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.modalInput {
+  background-color: white;
+  border: 1px solid var(--surface-container-high);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--on-surface);
+  flex: 1;
+}
+
+.modalInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.modalInputShort {
+  width: 60px;
+  flex: none;
+  text-align: center;
+}
+
+.colorPickerBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+.colorPickerBox::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.colorPickerBox::-webkit-color-swatch {
+  border: none;
+}
+
+.trashBtn {
+  color: var(--on-surface-variant);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trashBtn:hover {
+  color: var(--primary);
+}
+
+/* Modal Footer */
+.modalFooter {
+  padding: 1.5rem 2.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addBtnText {
+  color: var(--primary);
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.footerActions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.cancelBtn {
+  font-weight: 700;
+  color: var(--on-surface);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.saveBtn {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.saveBtn:hover {
+  filter: brightness(1.1);
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Main Content */
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  align-items: flex-start;
+  padding: 2rem 3rem;
+  background-color: #fafafa;
+  width: 100%;
+}
+
+.headerContainer {
+  margin-bottom: 2rem;
+}
+
+.headerSubtitle {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.headerTitle {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--on-surface);
+}
+
+.categoriesContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.categorySection {
+  width: 100%;
+}
+
+.categoryTitle {
+  font-family: var(--font-manrope);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--on-surface);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskCountBadge {
+  font-size: 0.65rem;
+  color: var(--primary);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.taskCard {
+  background-color: white;
+  border: 1px solid var(--surface-container-high);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 120px;
+  position: relative;
+}
+
+.taskCard:hover {
+  border-color: var(--surface-container-highest);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.taskCardActive {
+  border-color: var(--primary);
+  background-color: #fffafb;
+}
+
+.taskCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.keyIcon {
+  color: var(--on-surface-variant);
+}
+
+.taskCardActive .keyIcon {
+  color: var(--primary);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--surface-container-high);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.taskCardActive .checkbox {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.taskTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--on-surface);
+  margin-bottom: 0.25rem;
+}
+
+.taskDesc {
+  font-size: 0.75rem;
+  color: var(--on-surface-variant);
+}
+
+/* Capacity Card Component */
+.capacityCard {
+  background-color: #1a1e28;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  grid-column: span 1;
+}
+
+.capacitySubtitle {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.capacityTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.capacityValue {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.capacityUnit {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.capacityBarContainer {
+  height: 4px;
+  width: 100%;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 9999px;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.capacityBarFill {
+  height: 100%;
+  background-color: var(--primary);
+}

@@ -1,0 +1,599 @@
+.container {
+  display: flex;
+  height: calc(100vh - 80px);
+  background-color: var(--surface);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 320px;
+  background-color: var(--surface-container-lowest);
+  border-right: 1px solid var(--surface-container-high);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebarHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--surface-container-high);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebarTitle {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 1.125rem;
+  color: var(--primary);
+}
+
+.addCategoryBtn {
+  background-color: var(--primary-fixed);
+  color: var(--primary);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addCategoryBtn:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.categoryList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.categoryHeader:hover {
+  background-color: var(--surface-container-high);
+}
+
+.chevron {
+  color: var(--on-surface-variant);
+}
+
+.categoryName {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex: 1;
+}
+
+.categoryActions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.categoryHeader:hover .categoryActions {
+  opacity: 1;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBtn:hover {
+  background-color: var(--surface-container-highest);
+  color: var(--primary);
+}
+
+.countBadge {
+  background-color: var(--surface-container-high);
+  color: var(--on-surface-variant);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-left: 1.5rem; /* Indent under chevron */
+}
+
+/* ... keep previous taskListItem styles ... */
+.taskListItem {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  position: relative;
+}
+
+.taskListItem:hover {
+  background-color: var(--surface-container-low);
+}
+
+.taskListItemActive {
+  background-color: white;
+  border: 1px solid var(--surface-container-high);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.taskListItemDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  margin-top: 6px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.taskListItemActive .taskListItemDot {
+  background-color: var(--primary);
+}
+
+.taskListItemContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.taskListItemTitle {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--on-surface-variant);
+  transition: color 0.2s;
+}
+
+.taskListItemActive .taskListItemTitle {
+  color: var(--on-surface);
+}
+
+.taskListItemSubtitle {
+  font-size: 0.65rem;
+  color: var(--on-surface-variant);
+  margin-top: 0.25rem;
+}
+
+.deleteBtn {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  background-color: white;
+  border: none;
+  color: var(--on-surface-variant);
+  opacity: 0;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.taskListItem:hover .deleteBtn {
+  opacity: 1;
+}
+
+.deleteBtn:hover {
+  color: var(--primary);
+  background-color: var(--primary-fixed);
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  align-items: flex-start;
+  padding: 3rem 2.5rem;
+  background-color: #fafafa;
+}
+
+.mobileBackRow {
+  display: none;
+}
+
+.mobileBackBtn {
+  background: none;
+  border: none;
+  color: var(--on-surface-variant);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.emptyState {
+  color: var(--on-surface-variant);
+  font-style: italic;
+  margin-top: 5rem;
+  align-self: center;
+}
+
+.taskEditor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Metrics Sidebar */
+.metricsSidebar {
+  width: 250px;
+  background-color: var(--surface-container-lowest);
+  border-left: 1px solid var(--surface-container-high);
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 1.5rem;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.metricsBadge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.metricsTitle {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 1.125rem;
+  color: var(--on-surface);
+  margin-bottom: 2rem;
+}
+
+.metricsGroup {
+  margin-bottom: 2rem;
+}
+
+.metricsSubtitle {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+.complexityRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.complexityValue {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 2.5rem;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.complexityLabel {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+}
+
+.progressBarContainer {
+  height: 4px;
+  width: 100%;
+  background-color: var(--surface-container-high);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: var(--primary);
+  transition: width 0.5s ease-out;
+}
+
+.skillDistRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--on-surface);
+  font-weight: 600;
+}
+
+.skillDistName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.avatarsRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.metricsAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 2px solid white;
+}
+
+.metricsAvatar:not(:first-child) {
+  margin-left: -0.5rem;
+}
+
+.avatarsHint {
+  font-size: 0.65rem;
+  color: var(--on-surface-variant);
+  margin-top: 1rem;
+}
+
+.taskBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.breadcrumbBadge {
+  background-color: var(--primary-fixed);
+  color: var(--primary);
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.breadcrumbBadgeOutline {
+  border: 1px solid var(--surface-container-high);
+  color: var(--on-surface-variant);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.taskTitleInput {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 2.25rem;
+  color: var(--on-surface);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+  padding: 0;
+}
+
+.taskTitleInput:focus {
+  border-bottom-color: var(--primary);
+}
+
+.taskDescInput {
+  background: transparent;
+  border: none;
+  font-size: 0.95rem;
+  color: var(--on-surface-variant);
+  outline: none;
+  width: 100%;
+  min-height: 3rem;
+  resize: vertical;
+}
+
+/* Skills Grid */
+.skillsSection {
+  background: transparent;
+}
+
+.skillsSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.skillsSectionTitle {
+  font-family: var(--font-manrope);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--on-surface);
+}
+
+.skillsCount {
+  font-size: 0.75rem;
+}
+
+.skillGridContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skillCategoryBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.skillCategoryTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--surface-container-high);
+  padding-bottom: 0.5rem;
+}
+
+.skillGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .skillGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skillCard {
+  background-color: white;
+  border: 1px solid var(--surface-container-high);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.skillCard:hover {
+  border-color: var(--surface-container-highest);
+}
+
+.skillCardActive {
+  border-color: var(--primary);
+  background-color: #fffafb;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--surface-container-high);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkboxChecked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.skillCardName {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  transition: color 0.2s;
+}
+
+.skillCardActive .skillCardName {
+  color: var(--on-surface);
+}
+
+.skillLevelBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+  background-color: var(--surface-container-low);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    height: calc(100vh - 80px); /* Fill the screen minus header */
+  }
+
+  .mainContent {
+    position: fixed;
+    top: 80px; /* Below header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background: #fafafa;
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+  }
+
+  .mainContentOpen {
+    transform: translateY(0);
+  }
+
+  .mobileBackRow {
+    display: flex;
+  }
+
+  .metricsSidebar {
+    display: none; /* Hide metrics on mobile */
+  }
+  
+  .taskEditor {
+    gap: 1.5rem;
+  }
+}

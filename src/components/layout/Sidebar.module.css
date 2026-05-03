@@ -1,0 +1,133 @@
+.sidebar {
+  width: 260px;
+  background-color: var(--surface-container-low);
+  border-right: 1px solid var(--surface-container-high);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.topSection {
+  padding: 1.5rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoMark {
+  width: 24px;
+  height: 24px;
+  background-color: var(--primary);
+  border-radius: 6px;
+  flex-shrink: 0;
+  position: relative;
+}
+.logoMark::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.title {
+  font-family: var(--font-manrope);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--on-surface);
+}
+
+.subtitle {
+  font-size: 9px;
+  color: var(--on-surface-variant);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.nav {
+  flex: 1;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  color: var(--on-surface-variant);
+}
+
+.navItem:hover {
+  background-color: rgba(226, 228, 233, 0.5); /* var(--surface-container-high) with opacity */
+  color: var(--on-surface);
+}
+
+.navItem.active {
+  background-color: var(--primary-fixed);
+  color: var(--primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.iconActive {
+  color: var(--primary);
+}
+
+.overlay {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .overlayOpen {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 15;
+    backdrop-filter: blur(2px);
+  }
+}

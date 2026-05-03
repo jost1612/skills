@@ -1,0 +1,299 @@
+.container {
+  display: flex;
+  height: calc(100vh - 80px);
+  width: 100%;
+  background-color: var(--surface);
+  overflow: hidden;
+}
+
+/* Editor Pane */
+.editorPane {
+  width: 450px;
+  background-color: white;
+  border-right: 1px solid var(--surface-container-high);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.editorHeader {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid var(--surface-container-highest);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+}
+
+.editorTitle {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--on-surface);
+}
+
+.saveBtn {
+  background-color: var(--primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.saveBtn:hover {
+  filter: brightness(1.1);
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editorSection {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid var(--surface-container-high);
+}
+
+.editorSectionTitle {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--on-surface);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.inputGroup label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--on-surface-variant);
+}
+
+.input {
+  background-color: #fafafa;
+  border: 1px solid var(--surface-container-highest);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: var(--on-surface);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: white;
+}
+
+.textarea {
+  background-color: #fafafa;
+  border: 1px solid var(--surface-container-highest);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: var(--on-surface);
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: white;
+}
+
+.subtext {
+  font-size: 0.75rem;
+  color: var(--on-surface-variant);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.targetTasksList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.targetTaskItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-container-highest);
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.targetTaskItem:hover {
+  border-color: var(--primary);
+}
+
+.targetTaskItemActive {
+  background-color: #fffafb;
+  border-color: var(--primary);
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--surface-container-high);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkboxActive {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.targetTaskName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  flex: 1;
+}
+
+.targetTaskCategory {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background-color: var(--surface-container-high);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: var(--on-surface-variant);
+}
+
+/* Preview Pane */
+.previewPane {
+  flex: 1;
+  background-color: #e5e7eb;
+  padding: 3rem;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.a4Preview {
+  width: 21cm;
+  min-height: 29.7cm;
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 4rem 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.a4Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4rem;
+  border-bottom: 2px solid var(--surface-container-highest);
+  padding-bottom: 1rem;
+}
+
+.a4LogoBlock {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.a4Logo {
+  width: 32px;
+  height: 32px;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.2rem;
+  border-radius: 4px;
+}
+
+.a4Company {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.a4Date {
+  color: var(--on-surface-variant);
+  font-size: 0.85rem;
+}
+
+.a4Title {
+  font-family: var(--font-manrope);
+  font-weight: 800;
+  font-size: 2.5rem;
+  color: var(--on-surface);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.a4Subtitle {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 3rem;
+}
+
+.a4Section {
+  margin-bottom: 2.5rem;
+}
+
+.a4SectionTitle {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--surface-container-high);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.a4Text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--on-surface);
+  white-space: pre-wrap;
+}
+
+.a4List {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.a4ListItem {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--on-surface);
+  margin-bottom: 0.5rem;
+}
+
+.a4EmptyItem {
+  font-size: 0.95rem;
+  color: var(--on-surface-variant);
+  font-style: italic;
+  list-style: none;
+  margin-left: -1.5rem;
+}
