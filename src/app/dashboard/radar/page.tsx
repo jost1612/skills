@@ -55,7 +55,7 @@ export default async function RadarPage(props: { searchParams?: { deptId?: strin
            for (const mt of (member.assignedTasks || [])) {
               const fullTask = currentDept.tasks.find(t => t.id === mt.id);
               if (fullTask && fullTask.requiredSkills.some((rs:any) => rs.id === skill.id)) {
-                 derived = Math.max(derived, Math.min(skill.level, 5));
+                 derived = Math.max(derived, Math.min(skill.level, 2));
               }
            }
            memberScoreSum += derived;

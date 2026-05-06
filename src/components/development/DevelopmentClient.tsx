@@ -56,7 +56,7 @@ export default function DevelopmentClient({ department, members, tasks, skillCat
                let sLevel = 3;
                for (const c of skillCategories) {
                   const s = c.skills.find((x:any) => x.id === skillId);
-                  if (s) sLevel = Math.min(s.level, 3);
+                  if (s) sLevel = Math.min(s.level, 2);
                }
                derivedScore = Math.max(derivedScore, sLevel);
            }
