@@ -102,7 +102,7 @@ export default function MatrixInteractiveClient({ departmentId, departmentName, 
         for (const cat of localCategories) {
           const s = cat.skills.find((x: any) => x.id === skillId);
           if (s && s.level > derivedScore) {
-            derivedScore = Math.min(s.level, 3);
+            derivedScore = Math.min(s.level, 2);
           }
         }
       }

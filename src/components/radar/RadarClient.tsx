@@ -1,7 +1,7 @@
 "use client";
 
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart as RechartsRadarChart, ResponsiveContainer, Tooltip } from "recharts";
-import styles from "@/app/dashboard/radar/radar.module.css";
+import styles from "./RadarClient.module.css";
 import React, { useState } from "react";
 import { createDepartmentSnapshot } from "@/app/actions/development";
 
